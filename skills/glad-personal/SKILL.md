@@ -10,11 +10,11 @@ This is not a coding-behavior skill. It's a portable record of which global skil
 
 ## How to use this on a new machine
 
-1. List what's currently in `~/.claude/skills/`.
-2. Compare against the "Install" table below.
-3. For anything missing, run its exact install command (each is `npx skills add <repo> --skill <name>`).
+1. List what's currently in `~/.claude/skills/`, and check installed plugins too (`~/.claude/plugins/installed_plugins.json`) — this user uses both `npx skills add` and Claude Code's native `/plugin install`, see the two tables below.
+2. Compare against the "Install" table (npx skills) and "Plugins" table (native Claude Code plugins) below.
+3. For anything missing: run the exact `npx skills add` command for entries in the Install table. Plugin entries can't be installed by an agent — tell the user the exact `/plugin install` command to run themselves.
 4. Skip anything listed under "Declined" — those were evaluated and rejected on purpose, not overlooked.
-5. Report what was installed vs. already present vs. skipped; don't silently install without saying so.
+5. Report what was installed vs. already present vs. skipped vs. needs the user to run a `/plugin install` command themselves; don't silently install without saying so.
 
 ## How this user likes new skills vetted (apply this before adding anything not already on this list)
 
@@ -31,14 +31,10 @@ This is not a coding-behavior skill. It's a portable record of which global skil
 | frontend-design | anthropics/skills | `npx skills add https://github.com/anthropics/skills --skill frontend-design` | Official Anthropic; anti-generic-AI-look design principles |
 | web-design-guidelines | vercel-labs/agent-skills | `npx skills add https://github.com/vercel-labs/agent-skills --skill web-design-guidelines` | Official Vercel; a11y/UX compliance checklist, fetches live rules doc |
 | vercel-react-best-practices | vercel-labs/agent-skills | `npx skills add https://github.com/vercel-labs/agent-skills --skill vercel-react-best-practices` | 70 React/Next.js perf rules |
-| tdd | mattpocock/skills | `npx skills add https://github.com/mattpocock/skills --skill tdd` | Red-green-refactor |
-| test-driven-development | obra/superpowers | `npx skills add https://github.com/obra/superpowers --skill test-driven-development` | Overlaps with `tdd`, kept both intentionally |
-| systematic-debugging | obra/superpowers | `npx skills add https://github.com/obra/superpowers --skill systematic-debugging` | Root-cause-before-fixes methodology |
-| verification-before-completion | obra/superpowers | `npx skills add https://github.com/obra/superpowers --skill verification-before-completion` | No success claims without running verification |
+| tdd | mattpocock/skills | `npx skills add https://github.com/mattpocock/skills --skill tdd` | Red-green-refactor. Overlaps with the `superpowers` plugin's `test-driven-development`, kept both intentionally |
 | backend-patterns | affaan-m/ECC | `npx skills add https://github.com/affaan-m/ECC --skill backend-patterns` | API/repository/caching/auth patterns, Node/Next-focused |
 | grilling | mattpocock/skills | `npx skills add https://github.com/mattpocock/skills --skill grilling` | Auto-triggers on stress-testing/"grill" language |
 | grill-me | mattpocock/skills | `npx skills add https://github.com/mattpocock/skills --skill grill-me` | Manual-only alias that forwards to `grilling`; needs `grilling` installed too or it's a dead pointer |
-| skill-creator | anthropics/skills | `npx skills add https://github.com/anthropics/skills --skill skill-creator` | Official Anthropic; for building/evaluating new skills |
 | caveman | juliusbrussee/caveman | `npx skills add https://github.com/juliusbrussee/caveman --skill caveman` | Auto-triggers on "be brief"/"less tokens"/"caveman mode". Only install the `caveman` skill from that repo, not its sibling skills or the separate `@caveman-ai/cli` proxy — neither was requested or vetted |
 | glad-frontend | Gladiarn/Glad-Frontend | `npx skills add https://github.com/Gladiarn/Glad-Frontend --skill glad-frontend` | This user's own skill. Scoped narrowly and deliberately to backend-ready data architecture (repository pattern, mock/real swap, loading/error/empty states) — has no opinion on visual design by design; pair with a design skill (impeccable/frontend-design) for that. Originally shipped with design-interview content too, which caused it to overlap with impeccable/frontend-design; stripped down 2026-09-15 after user feedback that the combined version "wasn't good." |
 | redesign-existing-projects | leonxlnx/taste-skill | `npx skills add https://github.com/leonxlnx/taste-skill --skill redesign-existing-projects` | Audits/upgrades an *existing* site without breaking functionality — distinct job from building new (that's impeccable/frontend-design's job) |
@@ -46,6 +42,14 @@ This is not a coding-behavior skill. It's a portable record of which global skil
 | image-to-code | leonxlnx/taste-skill | `npx skills add https://github.com/leonxlnx/taste-skill --skill image-to-code` | Image-generation-first build workflow. Mostly inert without an image-gen tool available in-session — install anyway for when one is, but don't expect it to do much without one |
 
 Note on the `leonxlnx/taste-skill` repo: it bundles 13 skills total. The 3 above were the only ones judged genuinely non-redundant with what's already on this list — the other 10 (`brandkit`, `brutalist-skill`, `gpt-tasteskill`, `imagegen-frontend-mobile`, `imagegen-frontend-web`, `minimalist-skill`, `soft-skill`, `stitch-skill`, `taste-skill`, `taste-skill-v1`) either duplicate impeccable/frontend-design's anti-slop guidance, need image-gen not available here, or are single-locked-in-aesthetic skills. Don't install the bare repo URL without `--skill <name>` — that just lists all 13, doesn't install anything, but a future CLI version might behave differently.
+
+## Plugins — installed via `/plugin install`, not `npx skills add`
+
+These are Claude Code's own native plugin system (different mechanism than everything above — a marketplace-curated bundle, can include hooks/agents/commands alongside skills). An agent cannot run `/plugin install` — it's an interactive slash command only the user can run.
+
+| Plugin | Source | Install command | Notes |
+|---|---|---|---|
+| superpowers | obra/superpowers, via `claude-plugins-official` marketplace | `/plugin install superpowers@claude-plugins-official` | Supersedes 4 previously-individually-installed skills, removed 2026-09-16 when this plugin was adopted: `systematic-debugging`, `test-driven-development`, `verification-before-completion` (all from the same `obra/superpowers` source, now covered by the plugin), and `skill-creator` (anthropics/skills — replaced by the plugin's `writing-skills`, which does the same job). Also brings 9 new skills not previously installed: `brainstorming`, `dispatching-parallel-agents`, `executing-plans`, `finishing-a-development-branch`, `receiving-code-review`, `requesting-code-review`, `subagent-driven-development`, `using-git-worktrees`, `writing-plans`. **Important**: also includes `using-superpowers`, which forces a skill-check before every single response including clarifying questions — a standing behavior change the user explicitly accepted, not an incidental side effect. |
 
 ## Declined — evaluated and deliberately rejected
 
