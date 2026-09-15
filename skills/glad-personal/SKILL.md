@@ -40,19 +40,19 @@ This is not a coding-behavior skill. It's a portable record of which global skil
 | grill-me | mattpocock/skills | `npx skills add https://github.com/mattpocock/skills --skill grill-me` | Manual-only alias that forwards to `grilling`; needs `grilling` installed too or it's a dead pointer |
 | skill-creator | anthropics/skills | `npx skills add https://github.com/anthropics/skills --skill skill-creator` | Official Anthropic; for building/evaluating new skills |
 | caveman | juliusbrussee/caveman | `npx skills add https://github.com/juliusbrussee/caveman --skill caveman` | Auto-triggers on "be brief"/"less tokens"/"caveman mode". Only install the `caveman` skill from that repo, not its sibling skills or the separate `@caveman-ai/cli` proxy — neither was requested or vetted |
+| glad-frontend | Gladiarn/Glad-Frontend | `npx skills add https://github.com/Gladiarn/Glad-Frontend --skill glad-frontend` | This user's own skill. Scoped narrowly and deliberately to backend-ready data architecture (repository pattern, mock/real swap, loading/error/empty states) — has no opinion on visual design by design; pair with a design skill (impeccable/frontend-design) for that. Originally shipped with design-interview content too, which caused it to overlap with impeccable/frontend-design; stripped down 2026-09-15 after user feedback that the combined version "wasn't good." |
+| redesign-existing-projects | leonxlnx/taste-skill | `npx skills add https://github.com/leonxlnx/taste-skill --skill redesign-existing-projects` | Audits/upgrades an *existing* site without breaking functionality — distinct job from building new (that's impeccable/frontend-design's job) |
+| full-output-enforcement | leonxlnx/taste-skill | `npx skills add https://github.com/leonxlnx/taste-skill --skill full-output-enforcement` | Stops truncated/placeholder code output. General behavior, not design-specific |
+| image-to-code | leonxlnx/taste-skill | `npx skills add https://github.com/leonxlnx/taste-skill --skill image-to-code` | Image-generation-first build workflow. Mostly inert without an image-gen tool available in-session — install anyway for when one is, but don't expect it to do much without one |
 
-## Experimental — not currently recommended
-
-| Skill | Source | Status |
-|---|---|---|
-| glad-frontend (formerly frontend-ready) | github.com/Gladiarn/Glad-Frontend, skill `glad-frontend` | Paused as of 2026-09-15 — user feedback was "not good enough." Left installed on the original machine but do not auto-reinstall on a new one without asking first. |
+Note on the `leonxlnx/taste-skill` repo: it bundles 13 skills total. The 3 above were the only ones judged genuinely non-redundant with what's already on this list — the other 10 (`brandkit`, `brutalist-skill`, `gpt-tasteskill`, `imagegen-frontend-mobile`, `imagegen-frontend-web`, `minimalist-skill`, `soft-skill`, `stitch-skill`, `taste-skill`, `taste-skill-v1`) either duplicate impeccable/frontend-design's anti-slop guidance, need image-gen not available here, or are single-locked-in-aesthetic skills. Don't install the bare repo URL without `--skill <name>` — that just lists all 13, doesn't install anything, but a future CLI version might behave differently.
 
 ## Declined — evaluated and deliberately rejected
 
 | Skill | Source | Reason |
 |---|---|---|
 | browser-use | browser-use/browser-use | Real CDP browser control (clicks, forms, cookies/sessions) — flagged Med Risk by the installer's own Snyk scan; removed after installing |
-| playwright-cli | microsoft/playwright | Same real-browser-control risk category as browser-use, declined before installing despite being an official Microsoft source |
+| playwright-cli | microsoft/playwright | Same real-browser-control risk category as browser-use, declined before installing despite being an official Microsoft source. Also declined its native installer path (`npm install -g @playwright/cli` then `playwright-cli install --skills -g`) — same skill, same risk, different door |
 
 ## Also present but not part of this manifest
 
