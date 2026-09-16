@@ -8,6 +8,16 @@ disable-model-invocation: true
 
 This is not a coding-behavior skill. It's a portable record of which global skills this user has already vetted and wants installed, so a new machine (or a fresh `~/.claude/skills/`) can be brought up to the same state in one pass.
 
+## Known failure mode: never check skill availability from one source only
+
+Confirmed to actually happen (2026-09-16, a different project's session): an agent reasoning about "does any installed skill apply to this task" ran `ls ~/.claude/skills/`, concluded no skill fit, and proceeded without one — when a plugin-provided skill (`superpowers:writing-plans`) actually matched perfectly. Plugin skills live at `~/.claude/plugins/cache/<marketplace>/<plugin>/`, a completely different path, and will never show up in an `~/.claude/skills/` listing. The agent later caught and corrected this itself, but the miss was real, not a hypothetical risk.
+
+**The fix**: the "available skills" list that Claude Code injects into context (after installs, removals, or a Skill tool call) already merges both sources correctly and is the reliable source of truth — trust it over a manual re-derivation. If actively re-checking what's installed for any reason (not just provisioning a new machine), always check **both**:
+- `~/.claude/skills/` (`npx skills add`-installed, plus a few pre-existing ones — see below)
+- `~/.claude/plugins/installed_plugins.json` (Claude Code native plugins, e.g. `superpowers`, `vercel`)
+
+A check of only one is a partial check and will produce wrong "no skill applies" conclusions, exactly like the incident above.
+
 ## How to use this on a new machine
 
 1. List what's currently in `~/.claude/skills/`, and check installed plugins too (`~/.claude/plugins/installed_plugins.json`) — this user uses both `npx skills add` and Claude Code's native `/plugin install`, see the two tables below.
