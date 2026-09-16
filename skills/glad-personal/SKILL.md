@@ -1,6 +1,6 @@
 ---
 name: glad-personal
-description: Personal skill manifest and provisioning guide for this user — lists the global skills they've vetted and want on every machine, with exact install commands. Use only when explicitly asked to set up skills on a new machine, check what skills are installed vs. missing, or "provision"/"redownload my skills."
+description: Personal skill manifest and provisioning guide for this user — lists the global skills they've vetted and want on every machine, with exact install commands, and bundles a copy of their global CLAUDE.md to set up/merge on a new machine too. Use only when explicitly asked to set up skills on a new machine, check what skills are installed vs. missing, or "provision"/"redownload my skills."
 disable-model-invocation: true
 ---
 
@@ -24,7 +24,13 @@ A check of only one is a partial check and will produce wrong "no skill applies"
 2. Compare against the "Install" table (npx skills) and "Plugins" table (native Claude Code plugins) below.
 3. For anything missing: run the exact `npx skills add` command for entries in the Install table. Plugin entries can't be installed by an agent — tell the user the exact `/plugin install` command to run themselves.
 4. Skip anything listed under "Declined" — those were evaluated and rejected on purpose, not overlooked.
-5. Report what was installed vs. already present vs. skipped vs. needs the user to run a `/plugin install` command themselves; don't silently install without saying so.
+5. **Set up global `CLAUDE.md`**: check whether `~/.claude/CLAUDE.md` exists on this machine.
+   - **Missing entirely**: copy [`references/CLAUDE.md`](references/CLAUDE.md) (bundled in this skill) to `~/.claude/CLAUDE.md` directly.
+   - **Already exists**: read it first, then merge in only the sections from the bundled copy that are missing (matched by `# heading`) — never blindly overwrite a file that might have other machine-specific content the user added since. Report exactly which sections were added.
+   - This step needs `npx skills add`-installer to have actually written this reference file to disk for you to read (it will have, as part of installing this skill) — if for some reason it isn't at that path, say so rather than inventing the content from memory.
+6. Report what was installed vs. already present vs. skipped vs. needs the user to run a `/plugin install` command themselves vs. what got merged into `CLAUDE.md`; don't silently install/write without saying so.
+
+**Staleness note**: `references/CLAUDE.md` is a point-in-time copy, not a live link — it was last synced 2026-09-16. If the real `~/.claude/CLAUDE.md` on the machine this manifest was authored on has changed since, this bundled copy is behind. When in doubt, or before relying on it for a provisioning run, ask the user whether their live `CLAUDE.md` has newer content worth re-syncing here first.
 
 ## How this user likes new skills vetted (apply this before adding anything not already on this list)
 
