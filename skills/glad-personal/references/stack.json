@@ -1,0 +1,320 @@
+{
+  "$comment": "Machine-readable list of every skill and plugin in this setup. Used by install.sh and by the glad-personal skill. Third-party entries are references to their original authors' repositories — nothing here is copied from them.",
+  "version": 1,
+  "updated": "2026-10-08",
+  "repository": "https://github.com/Gladiarn/Glad-Personal",
+  "own": [
+    {
+      "name": "glad-frontend",
+      "summary": "Backend-ready frontend data architecture: repository pattern, swappable mock/real data, real loading/error/empty states.",
+      "install": "npx skills add https://github.com/Gladiarn/Glad-Personal --skill glad-frontend"
+    },
+    {
+      "name": "production-readiness",
+      "summary": "Evidence-backed production readiness audit with a hard verdict (NOT READY / READY WITH CONDITIONS / READY).",
+      "install": "npx skills add https://github.com/Gladiarn/Glad-Personal --skill production-readiness"
+    },
+    {
+      "name": "glad-personal",
+      "summary": "This manifest as a skill: provisions a new machine with the skills and plugins below and sets up the global CLAUDE.md.",
+      "install": "npx skills add https://github.com/Gladiarn/Glad-Personal --skill glad-personal"
+    }
+  ],
+  "skills": [
+    {
+      "name": "impeccable",
+      "category": "Design",
+      "source": "pbakaus/impeccable",
+      "url": "https://github.com/pbakaus/impeccable",
+      "license": "Apache-2.0",
+      "type": "skill",
+      "install": "npx skills add https://github.com/pbakaus/impeccable --skill impeccable",
+      "vetted": true,
+      "summary": "Full design workflow: shape, critique, audit, polish and harden interfaces.",
+      "notes": "Runs a bundled binary launcher (`impeccable context`) once per session."
+    },
+    {
+      "name": "frontend-design",
+      "category": "Design",
+      "source": "anthropics/skills",
+      "url": "https://github.com/anthropics/skills",
+      "license": "see repo",
+      "type": "skill",
+      "install": "npx skills add https://github.com/anthropics/skills --skill frontend-design",
+      "vetted": true,
+      "summary": "Official Anthropic design principles that avoid the generic AI look.",
+      "notes": ""
+    },
+    {
+      "name": "web-design-guidelines",
+      "category": "Design",
+      "source": "vercel-labs/agent-skills",
+      "url": "https://github.com/vercel-labs/agent-skills",
+      "license": "see repo",
+      "type": "skill",
+      "install": "npx skills add https://github.com/vercel-labs/agent-skills --skill web-design-guidelines",
+      "vetted": true,
+      "summary": "Official Vercel accessibility and UX compliance review.",
+      "notes": "Fetches the live rules document when it runs."
+    },
+    {
+      "name": "ui-ux-pro-max",
+      "category": "Design",
+      "source": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "url": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+      "license": "MIT",
+      "type": "skill",
+      "install": "npx skills add https://github.com/nextlevelbuilder/ui-ux-pro-max-skill --skill ui-ux-pro-max",
+      "vetted": true,
+      "summary": "Local searchable design database (palettes, font pairings, icons, GSAP presets, charts) covering 22 stacks.",
+      "notes": "Queried through a bundled Python script; no network calls. Trust caveat: the author account was created the same day as the repo (2025-11-30) — installed after a clean content review."
+    },
+    {
+      "name": "redesign-existing-projects",
+      "category": "Design",
+      "source": "leonxlnx/taste-skill",
+      "url": "https://github.com/leonxlnx/taste-skill",
+      "license": "MIT",
+      "type": "skill",
+      "install": "npx skills add https://github.com/leonxlnx/taste-skill --skill redesign-existing-projects",
+      "vetted": true,
+      "summary": "Audits and upgrades an existing site without breaking functionality.",
+      "notes": "Only 3 of the 13 skills in this repo are used; install with --skill, never the bare repo."
+    },
+    {
+      "name": "image-to-code",
+      "category": "Design",
+      "source": "leonxlnx/taste-skill",
+      "url": "https://github.com/leonxlnx/taste-skill",
+      "license": "MIT",
+      "type": "skill",
+      "install": "npx skills add https://github.com/leonxlnx/taste-skill --skill image-to-code",
+      "vetted": true,
+      "summary": "Image-generation-first website build workflow.",
+      "notes": "Mostly inert unless an image-generation tool is available in the session."
+    },
+    {
+      "name": "vercel-react-best-practices",
+      "category": "Frontend",
+      "source": "vercel-labs/agent-skills",
+      "url": "https://github.com/vercel-labs/agent-skills",
+      "license": "see repo",
+      "type": "skill",
+      "install": "npx skills add https://github.com/vercel-labs/agent-skills --skill vercel-react-best-practices",
+      "vetted": true,
+      "summary": "About 70 React and Next.js performance rules from Vercel.",
+      "notes": ""
+    },
+    {
+      "name": "backend-patterns",
+      "category": "Backend",
+      "source": "affaan-m/ECC",
+      "url": "https://github.com/affaan-m/ECC",
+      "license": "MIT",
+      "type": "skill",
+      "install": "npx skills add https://github.com/affaan-m/ECC --skill backend-patterns",
+      "vetted": true,
+      "summary": "API, repository, caching and auth patterns for Node, Express and Next.js.",
+      "notes": ""
+    },
+    {
+      "name": "use-railway",
+      "category": "Backend",
+      "source": "railwayapp/railway-skills",
+      "url": "https://github.com/railwayapp/railway-skills",
+      "license": "MIT",
+      "type": "skill",
+      "install": "npx skills add https://github.com/railwayapp/railway-skills --skill use-railway",
+      "vetted": false,
+      "summary": "Official Railway skill: deploys, services, variables, logs, metrics, recovery.",
+      "notes": "Predates the vetting process."
+    },
+    {
+      "name": "tdd",
+      "category": "Workflow",
+      "source": "mattpocock/skills",
+      "url": "https://github.com/mattpocock/skills",
+      "license": "MIT",
+      "type": "skill",
+      "install": "npx skills add https://github.com/mattpocock/skills --skill tdd",
+      "vetted": true,
+      "summary": "Red-green-refactor test-driven development.",
+      "notes": "Overlaps with superpowers' test-driven-development; both kept on purpose."
+    },
+    {
+      "name": "grilling",
+      "category": "Workflow",
+      "source": "mattpocock/skills",
+      "url": "https://github.com/mattpocock/skills",
+      "license": "MIT",
+      "type": "skill",
+      "install": "npx skills add https://github.com/mattpocock/skills --skill grilling",
+      "vetted": true,
+      "summary": "Stress-tests a plan or decision by grilling you about it.",
+      "notes": "Triggers on 'grill' language."
+    },
+    {
+      "name": "grill-me",
+      "category": "Workflow",
+      "source": "mattpocock/skills",
+      "url": "https://github.com/mattpocock/skills",
+      "license": "MIT",
+      "type": "skill",
+      "install": "npx skills add https://github.com/mattpocock/skills --skill grill-me",
+      "vetted": true,
+      "summary": "Manual alias that forwards to grilling.",
+      "notes": "Needs grilling installed too."
+    },
+    {
+      "name": "full-output-enforcement",
+      "category": "Workflow",
+      "source": "leonxlnx/taste-skill",
+      "url": "https://github.com/leonxlnx/taste-skill",
+      "license": "MIT",
+      "type": "skill",
+      "install": "npx skills add https://github.com/leonxlnx/taste-skill --skill full-output-enforcement",
+      "vetted": true,
+      "summary": "Stops truncated or placeholder code in answers.",
+      "notes": ""
+    },
+    {
+      "name": "caveman",
+      "category": "Workflow",
+      "source": "juliusbrussee/caveman",
+      "url": "https://github.com/juliusbrussee/caveman",
+      "license": "Apache-2.0",
+      "type": "skill",
+      "install": "npx skills add https://github.com/juliusbrussee/caveman --skill caveman",
+      "vetted": true,
+      "summary": "Ultra-brief answer mode to save tokens.",
+      "notes": "Install only the caveman skill — not its sibling skills or the @caveman-ai/cli proxy."
+    },
+    {
+      "name": "find-skills",
+      "category": "Workflow",
+      "source": "vercel-labs/skills",
+      "url": "https://github.com/vercel-labs/skills",
+      "license": "MIT",
+      "type": "skill",
+      "install": "npx skills add https://github.com/vercel-labs/skills --skill find-skills",
+      "vetted": false,
+      "summary": "Searches the skills directory for skills that fit a task.",
+      "notes": "Installed with the skills CLI itself; predates the vetting process."
+    },
+    {
+      "name": "dsr",
+      "category": "Dev tools",
+      "source": "Dicklesworthstone/doodlestein_self_releaser",
+      "url": "https://github.com/Dicklesworthstone/doodlestein_self_releaser",
+      "license": "see repo",
+      "type": "skill",
+      "install": "npx skills add https://github.com/Dicklesworthstone/doodlestein_self_releaser --skill dsr",
+      "vetted": false,
+      "summary": "Fallback release infrastructure when GitHub Actions is throttled.",
+      "notes": "Drives the dsr command-line tool; install the tool from the repo for it to do anything."
+    },
+    {
+      "name": "rch",
+      "category": "Dev tools",
+      "source": "Dicklesworthstone/remote_compilation_helper",
+      "url": "https://github.com/Dicklesworthstone/remote_compilation_helper",
+      "license": "see repo",
+      "type": "skill",
+      "install": "npx skills add https://github.com/Dicklesworthstone/remote_compilation_helper --skill rch",
+      "vetted": false,
+      "summary": "Offloads cargo/gcc/bun builds to remote workers.",
+      "notes": "Drives the rch command-line tool; install the tool from the repo for it to do anything."
+    },
+    {
+      "name": "sbh",
+      "category": "Dev tools",
+      "source": "Dicklesworthstone/storage_ballast_helper",
+      "url": "https://github.com/Dicklesworthstone/storage_ballast_helper",
+      "license": "see repo",
+      "type": "skill",
+      "install": "npx skills add https://github.com/Dicklesworthstone/storage_ballast_helper --skill sbh",
+      "vetted": false,
+      "summary": "Disk-pressure defense: ballast files, cleanup, emergency mode.",
+      "notes": "Drives the sbh command-line tool; install the tool from the repo for it to do anything."
+    },
+    {
+      "name": "casr",
+      "category": "Dev tools",
+      "source": "Dicklesworthstone/cross_agent_session_resumer",
+      "url": "https://github.com/Dicklesworthstone/cross_agent_session_resumer",
+      "license": "see repo",
+      "type": "tool",
+      "install": "curl -fsSL https://raw.githubusercontent.com/Dicklesworthstone/cross_agent_session_resumer/main/install.sh | bash",
+      "vetted": false,
+      "summary": "Converts and resumes sessions across Claude Code, Codex, Gemini and other agents.",
+      "notes": "Not in the skills directory: its own installer downloads a compiled binary and writes the skill. Read the installer first."
+    },
+    {
+      "name": "process-triage",
+      "category": "Dev tools",
+      "source": "Dicklesworthstone/process_triage",
+      "url": "https://github.com/Dicklesworthstone/process_triage",
+      "license": "see repo",
+      "type": "tool",
+      "install": "curl -fsSL https://raw.githubusercontent.com/Dicklesworthstone/process_triage/main/install.sh | bash",
+      "vetted": false,
+      "summary": "Finds runaway processes and suggests safe fixes (the pt command).",
+      "notes": "Not in the skills directory: its own installer downloads a compiled binary and writes the skill. Read the installer first."
+    },
+    {
+      "name": "graphify",
+      "category": "Dev tools",
+      "source": "safishamsi/graphify",
+      "url": "https://github.com/safishamsi/graphify",
+      "license": "Apache-2.0",
+      "type": "tool",
+      "install": "uv tool install graphifyy && graphify install",
+      "vetted": false,
+      "summary": "Turns code, docs, papers and media into a queryable knowledge graph (/graphify).",
+      "notes": "Python package; `graphify install` registers the skill. Use `pipx install graphifyy` if uv isn't available."
+    }
+  ],
+  "plugins": [
+    {
+      "name": "superpowers",
+      "marketplace": "claude-plugins-official",
+      "source": "obra/superpowers",
+      "url": "https://github.com/obra/superpowers",
+      "license": "MIT",
+      "install": "/plugin install superpowers@claude-plugins-official",
+      "vetted": true,
+      "summary": "Process skills: brainstorming, writing and executing plans, TDD, systematic debugging, code review, verification, writing skills.",
+      "notes": "Includes using-superpowers, which makes the agent check skills before every response — an accepted behaviour change. Auto-updates."
+    },
+    {
+      "name": "vercel",
+      "marketplace": "claude-plugins-official",
+      "source": "Claude Code official plugin marketplace",
+      "url": "https://docs.anthropic.com/en/docs/claude-code/plugins",
+      "license": "see marketplace",
+      "install": "/plugin install vercel@claude-plugins-official",
+      "vetted": false,
+      "summary": "Vercel platform skills: deploys, env vars, Next.js, AI SDK, functions, storage, firewall.",
+      "notes": "Predates the vetting process. Auto-updates."
+    }
+  ],
+  "declined": [
+    {
+      "name": "browser-use",
+      "source": "browser-use/browser-use",
+      "reason": "Real browser control (clicks, forms, cookies/sessions); flagged Med Risk by the installer's own Snyk scan; removed after installing."
+    },
+    {
+      "name": "playwright-cli",
+      "source": "microsoft/playwright",
+      "reason": "Same real-browser-control risk category; declined before installing, including its native installer path."
+    }
+  ],
+  "notProvisioned": [
+    {
+      "name": "synced",
+      "path": "~/.claude/skills/synced/",
+      "reason": "Claude Code's own cache of the built-in Anthropic skills (anthropic-skills:*). Host-managed — never copy it."
+    }
+  ]
+}
