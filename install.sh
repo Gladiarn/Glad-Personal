@@ -90,7 +90,8 @@ fi
 [ "$OWN" -eq 1 ] || [ "$STACK" -eq 1 ] || [ ${#PICK[@]} -gt 0 ] || { echo "Nothing selected. Use --own, --stack, --all or --skill <name> (see --help)." >&2; exit 2; }
 
 run() {
-  if [ "$DRY" -eq 1 ]; then echo "  [dry-run] $*"; else echo "  → $*"; bash -c "$*"; fi
+  # </dev/null: installers (npx) read stdin and would swallow the rest of the entry list.
+  if [ "$DRY" -eq 1 ]; then echo "  [dry-run] $*"; else echo "  → $*"; bash -c "$*" </dev/null; fi
 }
 
 wanted() {
