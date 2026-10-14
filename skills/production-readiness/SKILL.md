@@ -3,7 +3,7 @@ name: production-readiness
 description: Use when asked whether an app, API, or service is production ready, launch ready, or safe to go live; before a first production launch or a major release; or when reviewing security, rate limiting, CI/CD, deployment, scaling, monitoring, error tracking, backups, or disaster recovery for a web application.
 license: MIT
 metadata:
-  version: 1.0.0
+  version: 1.1.0
   author: Gladiarn
   repository: https://github.com/Gladiarn/Glad-Personal
 ---
@@ -28,7 +28,7 @@ Not for: a code-correctness review of one change (use a code review), or a deep 
 
 1. **Map the stack** — read the repo (package manifests, framework config, deploy config, docs) and list: runtime/framework, database, hosting for each service, CI, monitoring. Also read project notes for open risks (roadmap, decisions log, agent memory files, issue list). Note which platform CLIs/MCP tools are available.
 2. **Check live config, read-only** — platform settings are not in the repo. Use the platform's CLI/MCP read commands (see `checklist.md` → "Live platform reads"). Never mutate, never print secret values. When a setting's *value* matters (e.g. `NODE_ENV`), prove it by behaviour (a `Secure` flag on a live `Set-Cookie`, production error format) or ask the owner — don't read the variable.
-3. **Work every item in `checklist.md`** — all eight areas. Mark items that don't apply `N/A` with the reason (e.g. RLS when the database is reachable only through the API).
+3. **Work every item in `checklist.md`** — all eight areas. Mark items that don't apply `N/A` with the reason (e.g. RLS when the database is reachable only through the API). Items marked *Only if…* apply only when the app has that feature: one quick grep, and if it isn't there the row is `N/A — no <feature>`, VERIFIED. Don't dig further and don't warn about features the app doesn't have.
 4. **Run the cheap commands** — `npm audit` (or equivalent), `npx tsc --noEmit`, `npx eslint` (no `--cache`). Avoid project scripts that write (codegen such as `prisma generate`, build output, caches). If `tsc` fails only because generated code is missing, record it in "Could not check" as "typecheck not run (needs codegen)" — not as a failure. These command results are evidence for the CI and dependency-audit rows, not rows of their own. Run the test suite only if it is fast or the user agrees.
 5. **Write the report** in the exact shape of `report-template.md`.
 6. **Apply the verdict rule** below. Then offer to turn the gaps into a plan; do not fix anything during the audit.
@@ -51,6 +51,16 @@ Not for: a code-correctness review of one change (use a code review), or a deep 
 - All gates pass, some non-gate `FAIL`/`WARN` → **READY WITH CONDITIONS** (list them, each with an owner/next step)
 - Everything passes or is justified `N/A` → **READY**
 
+### Static sites
+
+**Static** = the stack map shows only static files: no server code, no serverless functions, no database, no logins, no forms that store data. Anything else is not static, and every item applies.
+
+For a static site:
+- Items about servers, auth, sessions, data, backups, restore, and the recovery runbook are `N/A — static site`. CI gates are `N/A` when there is no code to test (plain HTML/CSS).
+- ⛔ Written rollback path passes when the host has one-click rollback to the previous deploy (Vercel, Netlify, Cloudflare Pages): there are no migrations to undo.
+- ⛔ Uptime monitoring becomes a non-gate item (WARN when missing).
+- HTTPS, secrets out of git, and the dependency audit (when there are dependencies) stay gates.
+
 No "mostly yes", "ready for a careful launch", or percentage scores. Small team or internal app changes the urgency of fixes, not the verdict.
 
 ## Report Rules
@@ -69,6 +79,8 @@ No "mostly yes", "ready for a careful launch", or percentage scores. Small team 
 | "Nothing in the docs" marked UNKNOWN | You looked and it isn't there → FAIL |
 | Running `npm run typecheck`/`build` in a read-only audit | They may write codegen/caches; use `tsc --noEmit` |
 | Fixing things mid-audit | Audit only; offer a plan afterwards |
+| Jobs "covered" because errors go to Sentry | A job that never runs throws nothing — it also needs a heartbeat/check-in monitor |
+| Static site failed for no runbook / no RTO / no restore | Apply the static-site rule: those are `N/A`; host one-click rollback passes |
 | Flagging RLS / multi-region / Redis by default | Only when the architecture needs it — otherwise `N/A` with reason |
 
 ## Files

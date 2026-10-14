@@ -35,6 +35,7 @@ If a platform has no CLI/MCP access here, the items that depend on it are `UNKNO
 - Errors: no stack traces or internals to clients in production → read error handler
 - Raw SQL only with parameters; no user input in `*Unsafe` calls → grep `queryRaw|executeRaw|Unsafe`
 - File uploads: type/size checked server-side, signed short-lived URLs, private bucket → read upload code
+- *Only if the app receives webhooks* (payments, auth, email providers…), else `N/A — no webhooks`: signature verified on the raw body, **and** the handler is idempotent — each event ID is recorded and a repeat is skipped (unique `event_id` table, or a conditional update such as `where status <> 'paid'`), so a provider retry cannot charge, credit, or email twice → `grep -riE 'webhook|constructEvent|signature'`, then read each handler and ask "what happens if this exact event arrives twice?"
 - ⛔ Secrets not in git → `git ls-files | grep -iE '\.env|secret|key'`; `git log -p -S 'BEGIN PRIVATE KEY' --all | head` (count only)
 - Secrets ever pasted/leaked have been rotated → ask / check project notes
 - ⛔ Dependency audit: no unaccepted high/critical → `npm audit` (or `pip-audit`, `cargo audit`…); each accepted advisory has a written reason
@@ -56,7 +57,7 @@ If a platform has no CLI/MCP access here, the items that depend on it are `UNKNO
 - Migrations: run automatically before the new code starts; backwards-compatible (expand → deploy → contract); drift check → deploy config + migration files
 - Build is reproducible (lockfile committed; production runs compiled output, not dev runners like `tsx`/`ts-node` unless chosen deliberately) → package.json `start`
 - Infra config in code or documented (railway.json/vercel.json/IaC, or a written settings record) → repo files
-- ⛔ Rollback path **written down**: the exact steps to restore the previous deploy on each platform, and how migrations affect it (expand-only = safe; after a contract migration = what to do). Platform rollback support alone = FAIL → runbook in repo/docs
+- ⛔ Rollback path **written down**: the exact steps to restore the previous deploy on each platform, and how migrations affect it (expand-only = safe; after a contract migration = what to do). Platform rollback support alone = FAIL, except for a static site (see SKILL.md), where the host's one-click rollback passes → runbook in repo/docs
 - Graceful shutdown on SIGTERM (finish requests, close DB pool) → read server entry
 
 ## 5. Caching, CDN, load balancing & scaling
@@ -72,10 +73,11 @@ If a platform has no CLI/MCP access here, the items that depend on it are `UNKNO
 ## 6. Error tracking, logs & monitoring
 
 - ⛔ Error tracking on backend **and** frontend (Sentry/Bugsnag/Rollbar/Datadog…) with alerts to a person → grep deps + init code
-- ⛔ Uptime monitoring on the health endpoint and the site, alerting a person → ask / check external monitor
+- ⛔ Uptime monitoring on the health endpoint and the site, alerting a person (static site: non-gate, WARN when missing) → ask / check external monitor
 - Health endpoint checks the database, not just the process → read health route
 - Structured logs with request IDs; secrets/tokens/passwords redacted → read logger setup
 - Log retention long enough to investigate incidents (platform plan) → platform docs/config
+- *Only if the app has scheduled or background jobs* (cron, queues, workers), else `N/A — no jobs`: a failed run reaches error tracking or an alert (not only console logs), **and** a run that never happens is noticed — a heartbeat/check-in monitor (Sentry Crons, Healthchecks.io, Better Stack heartbeat) on every job that touches money, email, or data → `grep -riE 'cron|schedule|queue|worker'`; read each job's error path; ask for the monitor
 - Frontend error boundaries (e.g. Next.js `error.tsx` + `global-error.tsx`) → `find app -name 'error.tsx' -o -name 'global-error.tsx'`
 - Audit log of user changes for business-critical data → grep audit writes
 
@@ -85,7 +87,7 @@ If a platform has no CLI/MCP access here, the items that depend on it are `UNKNO
 - ⛔ A restore has been **tested** (restore to a branch/new instance, app connects, data verified) — record the date → runbook / notes / ask; no record anywhere = FAIL, VERIFIED; owner says yes without a record = CLAIMED (FAIL for this gate)
 - Database on a plan that won't suspend/cap production (free tiers that pause compute) → live plan read
 - File storage (uploads, invoices) versioned or backed up → bucket config
-- Recovery runbook: who does what for "deploy broke prod", "DB corrupted", "provider outage"; RTO/RPO stated → docs
+- Recovery runbook: who does what for "deploy broke prod", "DB corrupted", "provider outage"; RTO/RPO stated (`N/A — static site`) → docs
 - Health checks + auto-restart configured → platform config
 - Single region acceptable for the audience (multi-region only if required) → `N/A` with reason otherwise
 
