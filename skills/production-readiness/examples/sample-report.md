@@ -58,7 +58,21 @@
 | ≥2 replicas | PASS | Railway `numReplicas: 2` | VERIFIED |
 | Load test at peak | WARN | team says 200 concurrent users were tested; no results file | CLAIMED |
 
-<!-- Areas 2, 4, 6, 7 and 8 follow the same shape in a real report. -->
+### 6. Error tracking, logs & monitoring
+| Item | Status | Evidence | Level |
+|---|---|---|---|
+| ⛔ Error tracking with alerts | FAIL | see gate table | VERIFIED |
+| ⛔ Uptime monitoring with alerts | PASS | see gate table | VERIFIED |
+| Background jobs alert + heartbeat | FAIL | `api/src/jobs/reminders.ts`: hourly reminder emails via `node-cron`; errors only `console.error`, no heartbeat monitor | VERIFIED |
+| Health endpoint checks DB | PASS | `/health` runs `select 1` | VERIFIED |
+| Structured, redacted logs | PASS | `pino` with request IDs; `authorization`, `password` redacted | VERIFIED |
+| Log retention | WARN | Railway plan keeps 7 days; no drain | VERIFIED |
+| Frontend error boundaries | PASS | `app/error.tsx`, `app/global-error.tsx` | VERIFIED |
+| Audit log | PASS | `audit_events` written on booking changes | VERIFIED |
+
+The webhook row in area 2 reads `N/A — no webhooks` (VERIFIED: `grep -riE 'webhook'` finds nothing; payments are taken at the restaurant). An app without crons would show `N/A — no jobs` the same way.
+
+<!-- Areas 2, 4, 7 and 8 follow the same shape in a real report. -->
 
 ## What to do next
 
@@ -70,6 +84,7 @@
 **Conditions (soon after):**
 1. Retention job for `audit_events` (keep 1 year).
 2. Save the load-test script and results in the repo.
+3. Reminder job: send failures to Sentry and add a heartbeat check-in (Sentry Crons or Healthchecks.io) so a stopped job pages someone.
 
 **Later / by choice:**
 - MFA for admin accounts.

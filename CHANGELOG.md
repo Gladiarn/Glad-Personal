@@ -2,6 +2,15 @@
 
 Versions follow [Semantic Versioning](https://semver.org/) per skill. For `production-readiness`, a new gate item or a change to the verdict rule is a minor or major version; wording and documentation fixes are patches.
 
+## 2026-10-14 — production-readiness 1.1.0
+
+- **New check (area 2), only if the app receives webhooks:** signature verified on the raw body, and the handler is idempotent (each event ID recorded, repeats skipped), so a provider retry can't charge, credit, or email twice.
+- **New check (area 6), only if the app has scheduled or background jobs:** failures reach error tracking/alerts, and a heartbeat monitor notices a job that never runs.
+- **Conditional items:** `SKILL.md` now says how to score *Only if…* items. One grep; if the feature isn't there, the row is `N/A — no <feature>`. Apps aren't asked about features they don't have.
+- **Static-site rule:** for a site with only static files (no server code, functions, database, logins, or stored form data), server/data/backup/restore checks are `N/A`, the host's one-click rollback passes the rollback gate, and uptime monitoring is a non-gate WARN. HTTPS, secrets, and the dependency audit stay gates. Anything with a backend still gets every check.
+- Both new items are non-gate; the gate list stays at 14.
+- README: corrected the count (59 checks, not "about 70"); added "It only checks what your app has" and "Static sites get a lighter audit", update/uninstall steps, and the 1.1.0 test round. Sample report shows the new rows.
+
 ## 2026-10-08 — repository restructure
 
 Glad-Personal becomes the single home for my skills.

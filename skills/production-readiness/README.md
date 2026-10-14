@@ -9,26 +9,48 @@ Verdict: NOT READY
 3 gate items fail: no CI before production deploys, no error tracking, restore never tested.
 ```
 
-- **Version:** 1.0.0 · **License:** MIT · **Works with:** Claude Code and any agent that loads `SKILL.md` skills ([Agent Skills spec](https://agentskills.io/specification))
+- **Version:** 1.1.0 · **License:** MIT · **Works with:** Claude Code and any agent that loads `SKILL.md` skills ([Agent Skills spec](https://agentskills.io/specification))
 
 ---
 
 ## What it checks
 
-Eight areas, about 70 checks, each with how to verify it:
+Eight areas, 59 checks, each with how to verify it:
 
 | Area | Examples |
 |---|---|
 | 1. Authentication | password hashing, cookie/JWT security, secret validation at boot, session revocation, reset flow |
-| 2. Authorization & app security | every route guarded, tenant scoping (IDOR), validation, CSRF/CORS, security headers, secrets in git, dependency audit |
+| 2. Authorization & app security | every route guarded, tenant scoping (IDOR), validation, CSRF/CORS, security headers, secrets in git, dependency audit, webhook signatures + idempotency |
 | 3. Rate limiting & abuse | login/reset throttling, general API rate limit, proxy IP handling, unbounded tables |
 | 4. Hosting, deploys, CI/CD | protected branches, CI before deploy, migrations, reproducible builds, rollback runbook, graceful shutdown |
 | 5. Caching, CDN, scaling | CDN, no caching of private data, connection pooling, replicas, stateless servers, load testing |
-| 6. Error tracking & logs | error tracking with alerts, uptime monitoring, health checks, structured/redacted logs, error boundaries |
+| 6. Error tracking & logs | error tracking with alerts, uptime monitoring, health checks, structured/redacted logs, error boundaries, job failure alerts + missed-run heartbeats |
 | 7. Availability & recovery | backup retention, **tested** restore, DB plan limits, file storage backup, recovery runbook |
 | 8. Product & release hygiene | no mock data on live screens, open bugs triaged, privacy basics, on-call owner |
 
 Full list: [`checklist.md`](checklist.md).
+
+### It only checks what your app has
+
+Some checks are marked *Only if…* in the checklist. They apply only when the app has that feature:
+
+| Check | Applies only if the app… | What it looks for |
+|---|---|---|
+| Webhooks | receives webhooks (Stripe, auth or email providers…) | signature verified on the raw body, **and** idempotent: a retried event can't charge, credit, or email twice |
+| Background jobs | runs crons, queues, or workers | failures reach error tracking/alerts, **and** a heartbeat monitor notices a job that silently stops running |
+
+If the feature isn't there, the report shows one line, for example `N/A — no webhooks`, and moves on. A simple static site isn't asked about things it doesn't have.
+
+### Static sites get a lighter audit
+
+A **static site** has only static files: no server code, no serverless functions, no database, no logins, no forms that store data. For one:
+
+- server, auth, data, backup, and restore checks are `N/A — static site`
+- the host's one-click rollback (Vercel, Netlify, Cloudflare Pages) counts as the rollback plan
+- uptime monitoring is recommended (WARN), not a gate
+- **HTTPS, secrets out of git, and the dependency audit still gate the verdict**
+
+Add even one serverless function, login, or form that saves data, and it is no longer static: every check applies.
 
 ### Gate items decide the verdict
 
@@ -67,6 +89,10 @@ git clone https://github.com/Gladiarn/Glad-Personal ~/Glad-Personal
 mkdir -p ~/.claude/skills
 ln -s ~/Glad-Personal/skills/production-readiness ~/.claude/skills/production-readiness
 ```
+
+**Update:** `git pull` in your clone (symlink install), or run the same `npx skills add …` command again.
+
+**Uninstall:** `rm ~/.claude/skills/production-readiness` (the symlink or the copied folder).
 
 **Per project only:** copy this folder to `<project>/.claude/skills/production-readiness/` and commit it.
 
@@ -126,6 +152,7 @@ Built test-first, following the [writing-skills](https://github.com/obra/superpo
 1. **Baseline (no skill):** an agent auditing a real production CRM said "mostly yes, ready for a careful launch", relied on docs instead of live settings, and mixed verified findings with guesses.
 2. **With the skill:** the same audit read the live hosting, CI and GitHub settings, tagged every line, and returned **NOT READY** with the six deciding gaps.
 3. **Rule tests:** fresh agents applied the rules to ten edge cases (missing CI, owner claims without proof, free-plan limits, missing codegen, N/A items). Two rounds of wording fixes later, every case produced the intended status and verdict.
+4. **1.1.0 round:** baseline audits with 1.0.0 caught missing webhook idempotency only as an improvised extra row, and never checked whether anyone would notice a cron job that stops running. A one-page static site came out NOT READY for lacking a recovery runbook. With 1.1.0: webhook idempotency and job heartbeats got fixed rows and were flagged; the static site showed both as `N/A` and passed rollback through Vercel's one-click rollback; and a "basically static" site with a serverless form saving to a database was correctly given the full audit.
 
 ## Files
 
