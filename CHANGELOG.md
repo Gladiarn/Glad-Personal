@@ -2,6 +2,10 @@
 
 Versions follow [Semantic Versioning](https://semver.org/) per skill. For `production-readiness`, a new gate item or a change to the verdict rule is a minor or major version; wording and documentation fixes are patches.
 
+## 2026-10-19 — catalog: scroll-craft
+
+- **Added `scroll-craft`** ([nateherkai/scroll-craft](https://github.com/nateherkai/scroll-craft), MIT) to the Design catalog, vetted. Referenced, not copied; installs from the author's repo. Risk notes in its row: headless Chromium against localhost only (fresh profile, not your browser), ffmpeg and playwright-core needed for verification, optional paid kie.ai generation (reference photos go to kie's official temporary storage, deleted after 24 hours), and `--lan` serving is opt-in.
+
 ## 2026-10-19 — opus-plan-sonnet-build 1.0.0
 
 - **Added `opus-plan-sonnet-build` 1.0.0:** model routing for Claude Code. The main session stays on Sonnet. Opus subagents plan, critique the plan, take hard pieces Sonnet couldn't do, and review high-risk diffs. The build step requires a TDD skill.
