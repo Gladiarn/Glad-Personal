@@ -1,7 +1,7 @@
 {
   "$comment": "Machine-readable list of every skill and plugin in this setup. Used by install.sh and by the glad-personal skill. Third-party entries are references to their original authors' repositories — nothing here is copied from them.",
   "version": 1,
-  "updated": "2026-10-08",
+  "updated": "2026-10-19",
   "repository": "https://github.com/Gladiarn/Glad-Personal",
   "own": [
     {
@@ -13,6 +13,11 @@
       "name": "production-readiness",
       "summary": "Evidence-backed production readiness audit with a hard verdict (NOT READY / READY WITH CONDITIONS / READY).",
       "install": "npx skills add https://github.com/Gladiarn/Glad-Personal --skill production-readiness"
+    },
+    {
+      "name": "opus-plan-sonnet-build",
+      "summary": "Model routing for Claude Code: Opus plans and handles the hardest pieces through subagents, Sonnet builds test-first in the main session.",
+      "install": "npx skills add https://github.com/Gladiarn/Glad-Personal --skill opus-plan-sonnet-build"
     },
     {
       "name": "glad-personal",

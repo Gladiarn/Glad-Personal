@@ -2,7 +2,7 @@
 
 <!-- Generated from skills/glad-personal/references/stack.json by scripts/build-catalog.js. Edit stack.json, not this file. -->
 
-Last updated: **2026-10-08**. Third-party entries are **references** to their original authors' repositories — install them from there; nothing is copied into this repo. Licenses are as each repository declares them ("see repo" = the repo has no standard license file; check before redistributing).
+Last updated: **2026-10-19**. Third-party entries are **references** to their original authors' repositories — install them from there; nothing is copied into this repo. Licenses are as each repository declares them ("see repo" = the repo has no standard license file; check before redistributing).
 
 **Install everything:** `./install.sh --all` (add `--with-tools` for the tool installers) · **One item:** `./install.sh --skill <name>` or the command in its row.
 
@@ -14,6 +14,7 @@ Status: ✅ vetted = reviewed with the checklist below before installing · ⚪ 
 |---|---|---|
 | [**glad-frontend**](../skills/glad-frontend/) | Backend-ready frontend data architecture: repository pattern, swappable mock/real data, real loading/error/empty states. | `npx skills add https://github.com/Gladiarn/Glad-Personal --skill glad-frontend` |
 | [**production-readiness**](../skills/production-readiness/) | Evidence-backed production readiness audit with a hard verdict (NOT READY / READY WITH CONDITIONS / READY). | `npx skills add https://github.com/Gladiarn/Glad-Personal --skill production-readiness` |
+| [**opus-plan-sonnet-build**](../skills/opus-plan-sonnet-build/) | Model routing for Claude Code: Opus plans and handles the hardest pieces through subagents, Sonnet builds test-first in the main session. | `npx skills add https://github.com/Gladiarn/Glad-Personal --skill opus-plan-sonnet-build` |
 | [**glad-personal**](../skills/glad-personal/) | This manifest as a skill: provisions a new machine with the skills and plugins below and sets up the global CLAUDE.md. | `npx skills add https://github.com/Gladiarn/Glad-Personal --skill glad-personal` |
 
 ## Third-party skills

@@ -2,6 +2,13 @@
 
 Versions follow [Semantic Versioning](https://semver.org/) per skill. For `production-readiness`, a new gate item or a change to the verdict rule is a minor or major version; wording and documentation fixes are patches.
 
+## 2026-10-19 — opus-plan-sonnet-build 1.0.0
+
+- **Added `opus-plan-sonnet-build` 1.0.0:** model routing for Claude Code. The main session stays on Sonnet. Opus subagents plan, critique the plan, take hard pieces Sonnet couldn't do, and review high-risk diffs. The build step requires a TDD skill.
+- Description tested for triggering against 14 prompts (3 runs each, Sonnet 5.5): 38/42 correct, no false fires on small edits; the first draft scored 18/30. Known gap: bugs that already survived a fix trigger it about one run in three. Trigger test shipped in `evals/`.
+- Works with superpowers: when its skills are loaded too, the Opus subagent writes the one `writing-plans` plan (Sonnet only saves it), building runs through `executing-plans` on Sonnet, and there is one final Opus review. Tested with both loaded (5 runs each): without this rule the plan was written twice, by Opus and then rewritten by Sonnet, in 5/5 runs; with it, once by Opus in 5/5.
+- Root README: new introduction (the problem, what the repository does about it, who it's for) and badges.
+
 ## 2026-10-14 — production-readiness 1.1.0
 
 - **New check (area 2), only if the app receives webhooks:** signature verified on the raw body, and the handler is idempotent (each event ID recorded, repeats skipped), so a provider retry can't charge, credit, or email twice.

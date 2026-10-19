@@ -1,0 +1,14 @@
+T1	yes	Add Stripe subscription billing to our Express API, with webhooks and a customer portal page.
+T2	yes	Refactor our auth from server sessions to JWTs across the backend and the Next.js frontend.
+T3	yes	Users get randomly logged out in production. It's been a week and my two fixes didn't work.
+T4	yes	Build a CSV import for the admin dashboard: upload, validate rows, preview, then commit to the DB.
+T5	yes	Split the orders table into orders and order_items with a Prisma migration, without losing data.
+N1	no	Fix the typo "recieve" on the signup page.
+N2	no	Rename the variable usr to user in utils/format.ts.
+N3	no	Change the port in .env.example from 3000 to 4000.
+N4	no	Add a console.log in the login handler so I can see the request payload.
+N5	no	What does the useEffect in Header.tsx do?
+H1	yes	Add role-based permissions (admin, editor, viewer) to the API and hide UI actions the user's role can't do.
+H2	yes	Checkout totals are off by one cent on some orders. I already tried a rounding fix and it's still wrong.
+H3	no	Make the submit button on the contact form blue.
+H4	no	Add .env.local to the .gitignore.

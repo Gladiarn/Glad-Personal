@@ -1,17 +1,34 @@
 # Glad Personal
 
-My agent skills in one place — the skills I wrote, plus a catalog of every third-party skill and plugin I use, so any machine can be set up the same way in one command.
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Agent Skills](https://img.shields.io/badge/format-Agent%20Skills-8A2BE2.svg)](https://agentskills.io/specification)
+[![Claude Code](https://img.shields.io/badge/built%20for-Claude%20Code-D97757.svg)](https://docs.anthropic.com/en/docs/claude-code)
 
-- **My skills** live in this repo, each in its own folder with its own README.
-- **Third-party skills and plugins** are **referenced, not copied**: the catalog points to each original repository and installs from there, so authors keep their licenses and you always get their latest version.
+**A ready-made, tested set of agent skills for Claude Code.** It has the skills I wrote and use every day, plus a vetted catalog of the best third-party skills and plugins, each linked to its original author. Clone it and you get a complete, working setup in one command.
 
-Works with Claude Code and other agents that load [`SKILL.md` skills](https://agentskills.io/specification).
+## The problem
+
+Agent skills make coding agents much better at specific jobs: auditing a launch, planning features, test-driven development, design. But using them well is harder than it looks:
+
+- **They're scattered.** A good setup pulls from a dozen repositories. Rebuilding it on a new machine means remembering every install command.
+- **Quality varies.** Anyone can publish a skill. Some run compiled binaries, some control a real browser, and many have never been tested to see whether they actually trigger.
+- **Copying breaks things.** Pasting someone else's skill into your own repo drops their license and freezes it at an old version.
+- **Defaults cost more than they need to.** Running every task on the most capable model is expensive when most of the work doesn't need it.
+
+## What this repository does about it
+
+- **Original skills, built test-first.** Each skill here was tested against an agent *without* it first, then written to fix what went wrong, and re-tested. Every README says how it was tested and what still doesn't work.
+- **A vetted catalog, not copies.** Third-party skills are **referenced, not copied**: the [catalog](catalog/README.md) points to each original repository and installs from there, so authors keep their licenses and you always get their latest version. Each entry was checked against a written [vetting checklist](catalog/README.md#how-new-skills-get-vetted); the ones that were declined are listed too, with the reason.
+- **One-command setup.** `./install.sh --all` installs everything, on any machine, the same way.
+
+**Who it's for:** developers using Claude Code (or any agent that loads [`SKILL.md` skills](https://agentskills.io/specification)) who want a solid, trustworthy starting set instead of assembling one skill by skill. Take the whole setup, or just the one skill you need.
 
 ## My skills
 
 | Skill | What it does | Auto-triggers? |
 |---|---|---|
 | [**production-readiness**](skills/production-readiness/) | Audits whether an app is ready for production — auth & security, rate limiting, CI/CD, scaling, monitoring, backups & recovery — and returns an evidence-backed report with a hard verdict: **NOT READY / READY WITH CONDITIONS / READY**. | Yes |
+| [**opus-plan-sonnet-build**](skills/opus-plan-sonnet-build/) | Decides which model does each part of a coding task: Opus plans and handles the hardest pieces through subagents, Sonnet builds test-first in your session. Opus quality where it matters, lower cost everywhere else. | Yes |
 | [**glad-frontend**](skills/glad-frontend/) | Makes frontend UI backend-ready by construction: repository pattern, swappable mock/real data, real loading/error/empty states. Data architecture only — pair with a design skill. | Yes |
 | [**glad-personal**](skills/glad-personal/) | Provisions a new machine: installs everything below and sets up the global `CLAUDE.md`. | No (manual) |
 
@@ -78,7 +95,7 @@ Needs Node.js 18+ (for `npx`).
 ```bash
 git clone https://github.com/Gladiarn/Glad-Personal ~/Glad-Personal
 mkdir -p ~/.claude/skills
-for s in production-readiness glad-frontend glad-personal; do
+for s in production-readiness opus-plan-sonnet-build glad-frontend glad-personal; do
   ln -s ~/Glad-Personal/skills/$s ~/.claude/skills/$s
 done
 # update later with: git -C ~/Glad-Personal pull
@@ -94,6 +111,7 @@ Glad-Personal/
 ├── scripts/build-catalog.js  regenerates the catalog from stack.json
 ├── skills/
 │   ├── production-readiness/ SKILL.md · README.md · checklist · template · example · LICENSE
+│   ├── opus-plan-sonnet-build/ SKILL.md · README.md · evals · LICENSE
 │   ├── glad-frontend/        SKILL.md · README.md · evals · LICENSE
 │   └── glad-personal/        SKILL.md · README.md · references/stack.json · references/CLAUDE.md · LICENSE
 ├── CHANGELOG.md

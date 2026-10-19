@@ -13,7 +13,7 @@ usage() {
 Usage: install.sh [options]
 
 What to install (pick at least one):
-  --own            My own skills (glad-frontend, production-readiness, glad-personal)
+  --own            My own skills (glad-frontend, production-readiness, opus-plan-sonnet-build, glad-personal)
   --stack          Third-party skills from the catalog (from their original repos)
   --all            Both of the above
   --skill <name>   One skill by name (own or third-party); repeatable
