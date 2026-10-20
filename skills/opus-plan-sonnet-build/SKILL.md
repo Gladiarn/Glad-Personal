@@ -3,7 +3,7 @@ name: opus-plan-sonnet-build
 description: "Use whenever a coding task needs a plan or is hard or risky: new features, changes across several files, refactors, auth, payments or data migrations, or a bug that a fix has already failed to solve (load it together with systematic-debugging). Load it alongside planning, brainstorming or TDD skills, never instead of them; it only decides which model does each part. Not for typos, renames, single-file tweaks, config edits or questions about code."
 license: MIT
 metadata:
-  version: 1.0.0
+  version: 1.0.1
   author: Gladiarn
   repository: https://github.com/Gladiarn/Glad-Personal
 ---
@@ -12,7 +12,8 @@ metadata:
 
 This skill assumes the main session runs on Sonnet 5.5 (`/model sonnet`).
 The main session never switches models. Opus 5.5 is used only through subagents
-(model "opus"), and only for the jobs listed below.
+(model "opus"), and only for the jobs listed below. Spawn every Opus subagent
+with effort "high".
 
 **If the main session is not on Sonnet:** you cannot switch it yourself. Tell
 the user once to run `/model sonnet`, then carry on. On Opus the steps still

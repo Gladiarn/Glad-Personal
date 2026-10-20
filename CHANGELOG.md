@@ -2,6 +2,10 @@
 
 Versions follow [Semantic Versioning](https://semver.org/) per skill. For `production-readiness`, a new gate item or a change to the verdict rule is a minor or major version; wording and documentation fixes are patches.
 
+## 2026-10-20 — opus-plan-sonnet-build 1.0.1
+
+- Every Opus subagent (planner, plan critique, escalations, high-risk review) is now spawned with effort "high", so the effort no longer depends on a default. Not yet verified in a live run: `/tasks` shows the model but not the effort.
+
 ## 2026-10-19 — catalog: scroll-craft
 
 - **Added `scroll-craft`** ([nateherkai/scroll-craft](https://github.com/nateherkai/scroll-craft), MIT) to the Design catalog, vetted. Referenced, not copied; installs from the author's repo. Risk notes in its row: headless Chromium against localhost only (fresh profile, not your browser), ffmpeg and playwright-core needed for verification, optional paid kie.ai generation (reference photos go to kie's official temporary storage, deleted after 24 hours), and `--lan` serving is opt-in.

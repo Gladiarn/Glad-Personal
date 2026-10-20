@@ -12,7 +12,7 @@ You (on Sonnet):  "Add Stripe subscriptions with webhooks and a customer portal.
   → touches payments, so an Opus subagent reviews the diff
 ```
 
-- **Version:** 1.0.0 · **License:** MIT · **Works with:** Claude Code (it relies on subagents with a per-spawn model and the `/model` command)
+- **Version:** 1.0.1 · **License:** MIT · **Works with:** Claude Code (it relies on subagents with a per-spawn model and the `/model` command)
 
 ---
 
