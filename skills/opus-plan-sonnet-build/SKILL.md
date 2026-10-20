@@ -3,7 +3,7 @@ name: opus-plan-sonnet-build
 description: "Use whenever a coding task needs a plan or is hard or risky: new features, changes across several files, refactors, auth, payments or data migrations, or a bug that a fix has already failed to solve (load it together with systematic-debugging). Load it alongside planning, brainstorming or TDD skills, never instead of them; it only decides which model does each part. Not for typos, renames, single-file tweaks, config edits or questions about code."
 license: MIT
 metadata:
-  version: 1.0.1
+  version: 1.1.0
   author: Gladiarn
   repository: https://github.com/Gladiarn/Glad-Personal
 ---
@@ -51,7 +51,10 @@ Each job runs once, on the model this skill assigns:
   user picks subagent-driven-development, its implementers and task reviewers
   use model "sonnet", except task reviewers for the high-risk categories above,
   which use "opus".
-- **Review:** one final review, on model "opus". It replaces Step 5; never run both.
+- **Review:** one fresh-context final review. Use model "opus" only if the diff
+  touches auth, payments, permissions or schema migrations, or is a large
+  refactor; otherwise "sonnet", even though executing-plans suggests the most
+  capable model. It replaces Step 5; never run both.
 
 ## When to skip this skill
 Typos, renames, small single-file edits, config tweaks, or anything where the

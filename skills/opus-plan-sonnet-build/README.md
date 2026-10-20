@@ -12,7 +12,7 @@ You (on Sonnet):  "Add Stripe subscriptions with webhooks and a customer portal.
   → touches payments, so an Opus subagent reviews the diff
 ```
 
-- **Version:** 1.0.1 · **License:** MIT · **Works with:** Claude Code (it relies on subagents with a per-spawn model and the `/model` command)
+- **Version:** 1.1.0 · **License:** MIT · **Works with:** Claude Code (it relies on subagents with a per-spawn model and the `/model` command)
 
 ---
 
@@ -95,9 +95,9 @@ Typos, renames, single-file tweaks, config edits, questions about code, or anyth
 | The `writing-plans` plan | Opus subagent (Sonnet only saves the file) | **once** |
 | Critique of the plan | the same Opus subagent | once |
 | Building, test-first | Sonnet, in your session (`executing-plans`) | once |
-| Final review | Opus | **once** |
+| Final review (fresh context) | Sonnet; Opus for high-risk changes | **once** |
 
-Without that rule, an agent with both loaded wrote the plan **twice** in all 5 test runs: a short Opus draft, then a full Sonnet rewrite. So the detailed plan, where the decisions are made, came from Sonnet. With it, Opus wrote the only plan in 5/5 runs, and there was one Opus review each time.
+Without that rule, an agent with both loaded wrote the plan **twice** in all 5 test runs: a short Opus draft, then a full Sonnet rewrite. So the detailed plan, where the decisions are made, came from Sonnet. With it, Opus wrote the only plan in 5/5 runs, and there was one final review each time (that test used a payments feature, so it ran on Opus; routine changes now get a Sonnet reviewer).
 
 ## Cost tradeoff
 

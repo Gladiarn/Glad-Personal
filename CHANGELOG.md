@@ -2,6 +2,10 @@
 
 Versions follow [Semantic Versioning](https://semver.org/) per skill. For `production-readiness`, a new gate item or a change to the verdict rule is a minor or major version; wording and documentation fixes are patches.
 
+## 2026-10-20 — opus-plan-sonnet-build 1.1.0
+
+- **Final review with superpowers loaded** is now one fresh-context reviewer on Sonnet by default, and on Opus only for the high-risk categories (auth, payments, permissions, schema migrations, large refactors). Before, it always ran on Opus, which contradicted Step 5. Basis: CodeRabbit's review benchmark has Opus catching more hard bugs (about 8–10 of 13 against 6 for Sonnet 5.5), at roughly 60% higher cost per review, so Opus is kept where a missed bug is the expensive failure. Routing checked with 56 minimal-context runs (this skill plus executing-plans only, not the full set). Risky tasks went to Opus 22/22, including 10/10 on tasks the wording was never tuned on. Routine tasks went to Sonnet 6/10 at first, because executing-plans pulls toward the most capable model; after the rule was made explicit, 8/10 on the same tasks but only 5/10 on fresh ones (small UI tweaks such as a tooltip or a footer fix often still got Opus). Known gap: about half of routine reviews still pick Opus, the safe but costlier direction.
+
 ## 2026-10-20 — opus-plan-sonnet-build 1.0.1
 
 - Every Opus subagent (planner, plan critique, escalations, high-risk review) is now spawned with effort "high", so the effort no longer depends on a default. Not yet verified in a live run: `/tasks` shows the model but not the effort.
