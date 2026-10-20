@@ -1,7 +1,7 @@
 {
   "$comment": "Machine-readable list of every skill and plugin in this setup. Used by install.sh and by the glad-personal skill. Third-party entries are references to their original authors' repositories — nothing here is copied from them.",
   "version": 1,
-  "updated": "2026-10-19",
+  "updated": "2026-10-20",
   "repository": "https://github.com/Gladiarn/Glad-Personal",
   "own": [
     {
@@ -109,6 +109,18 @@
       "vetted": true,
       "summary": "Premium scroll-driven landing pages: journey and page grammar, dimensional heroes, one signature move, and screenshot-verified desktop, mobile and reduced-motion states.",
       "notes": "Verification needs ffmpeg, Chrome and `npm i playwright-core` in the build project; it drives headless Chromium with a fresh profile against localhost only, not your own browser. Optional image/video generation uses the paid kie.ai API (KIE_AI_API_KEY in .env); reference photos are uploaded to kie's temporary storage, deleted after 24 hours. `serve.mjs --lan` exposes the build folder to your network. Also ships as a Claude Code plugin (nateherk-design)."
+    },
+    {
+      "name": "emil-design-eng",
+      "category": "Design",
+      "source": "emilkowalski/skills",
+      "url": "https://github.com/emilkowalski/skills",
+      "license": "MIT",
+      "type": "skill",
+      "install": "npx skills add https://github.com/emilkowalski/skills --skill emil-design-eng",
+      "vetted": true,
+      "summary": "Emil Kowalski's UI-polish and animation rules for interactive components: whether to animate, easing and duration by element, press and hover behaviour, springs, a review checklist.",
+      "notes": "Single plain-text SKILL.md, no scripts or binaries (read before install; the author's account dates from 2018). Use on demand for buttons, cards, popovers and other interactive UI, not for scroll-driven scenes: it is tuned for UI under about 300 ms and has nothing on scroll. When first invoked with no question it answers with one fixed greeting line and waits. The same repo also holds animate, review-animations, animation-performance and other skills; only this one is installed."
     },
     {
       "name": "vercel-react-best-practices",

@@ -34,7 +34,7 @@ Agent skills make coding agents much better at specific jobs: auditing a launch,
 
 ## Third-party skills and plugins
 
-22 skills and 2 Claude Code plugins, grouped by purpose (design, frontend, backend, workflow, dev tools), each with source, license, vetting status, install command and notes.
+23 skills and 2 Claude Code plugins, grouped by purpose (design, frontend, backend, workflow, dev tools), each with source, license, vetting status, install command and notes.
 
 **→ [See the full catalog](catalog/README.md)**
 
