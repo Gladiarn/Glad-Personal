@@ -13,7 +13,7 @@ metadata:
 This skill assumes the main session runs on Sonnet 5.5 (`/model sonnet`).
 The main session never switches models. Opus 5.5 is used only through subagents
 (model "opus"), and only for the jobs listed below. Spawn every Opus subagent
-with effort "high".
+with effort "medium".
 
 **If the main session is not on Sonnet:** you cannot switch it yourself. Tell
 the user once to run `/model sonnet`, then carry on. On Opus the steps still
