@@ -2,6 +2,12 @@
 
 Versions follow [Semantic Versioning](https://semver.org/) per skill. For `production-readiness`, a new gate item or a change to the verdict rule is a minor or major version; wording and documentation fixes are patches.
 
+## 2026-10-21 — catalog: trimmed overlapping design skills; CLAUDE.md re-synced
+
+- **Moved `frontend-design`, `redesign-existing-projects`, `image-to-code` and `ui-ux-pro-max` from the catalog to `declined`.** All four overlap `impeccable`, which already covers design, redesign, audit, polish and animation, and two of them pull in a different direction: `frontend-design` is a second "be bold" design lead, and `image-to-code` makes generating a mockup image mandatory first. `ui-ux-pro-max` also depends on `${CLAUDE_PLUGIN_ROOT}`, which is not set for skills installed in `~/.claude/skills`. The design set is now `impeccable`, `web-design-guidelines`, `scroll-craft` and `emil-design-eng`.
+- **Re-synced `references/CLAUDE.md`** with the live file. New sections: git and GitHub authorship and style (no Claude credit anywhere, conventional commit messages, first-person comments), and "Scroll pages always get Emil", which loads `emil-design-eng` whenever `scroll-craft` is used.
+- Third-party skill count is now 19.
+
 ## 2026-10-20 — catalog: emil-design-eng
 
 - **Added `emil-design-eng`** ([emilkowalski/skills](https://github.com/emilkowalski/skills), MIT) to the Design catalog, vetted. Referenced, not copied. One plain-text `SKILL.md` (about 670 lines, no scripts or binaries); read in full before install. It covers when to animate, easing and duration by element, press and hover behaviour, springs and a review checklist, and adds nothing on scroll-driven pages (that stays with scroll-craft). Use it on demand for interactive UI. Its easing advice (springs only for gestures) differs from `ui-ux-pro-max`'s "prefer springs"; for ordinary UI follow `emil-design-eng`. Only this skill is installed from that repo, which also holds animate, review-animations and others.

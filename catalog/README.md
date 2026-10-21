@@ -2,7 +2,7 @@
 
 <!-- Generated from skills/glad-personal/references/stack.json by scripts/build-catalog.js. Edit stack.json, not this file. -->
 
-Last updated: **2026-10-20**. Third-party entries are **references** to their original authors' repositories — install them from there; nothing is copied into this repo. Licenses are as each repository declares them ("see repo" = the repo has no standard license file; check before redistributing).
+Last updated: **2026-10-21**. Third-party entries are **references** to their original authors' repositories — install them from there; nothing is copied into this repo. Licenses are as each repository declares them ("see repo" = the repo has no standard license file; check before redistributing).
 
 **Install everything:** `./install.sh --all` (add `--with-tools` for the tool installers) · **One item:** `./install.sh --skill <name>` or the command in its row.
 
@@ -24,11 +24,7 @@ Status: ✅ vetted = reviewed with the checklist below before installing · ⚪ 
 | Skill | What it does | Source · License | Status | Install | Notes |
 |---|---|---|---|---|---|
 | **impeccable** | Full design workflow: shape, critique, audit, polish and harden interfaces. | [pbakaus/impeccable](https://github.com/pbakaus/impeccable) · Apache-2.0 | ✅ vetted | `npx skills add https://github.com/pbakaus/impeccable --skill impeccable` | Runs a bundled binary launcher (`impeccable context`) once per session. |
-| **frontend-design** | Official Anthropic design principles that avoid the generic AI look. | [anthropics/skills](https://github.com/anthropics/skills) · see repo | ✅ vetted | `npx skills add https://github.com/anthropics/skills --skill frontend-design` |  |
 | **web-design-guidelines** | Official Vercel accessibility and UX compliance review. | [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills) · see repo | ✅ vetted | `npx skills add https://github.com/vercel-labs/agent-skills --skill web-design-guidelines` | Fetches the live rules document when it runs. |
-| **ui-ux-pro-max** | Local searchable design database (palettes, font pairings, icons, GSAP presets, charts) covering 22 stacks. | [nextlevelbuilder/ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) · MIT | ✅ vetted | `npx skills add https://github.com/nextlevelbuilder/ui-ux-pro-max-skill --skill ui-ux-pro-max` | Queried through a bundled Python script; no network calls. Trust caveat: the author account was created the same day as the repo (2025-11-30) — installed after a clean content review. |
-| **redesign-existing-projects** | Audits and upgrades an existing site without breaking functionality. | [leonxlnx/taste-skill](https://github.com/leonxlnx/taste-skill) · MIT | ✅ vetted | `npx skills add https://github.com/leonxlnx/taste-skill --skill redesign-existing-projects` | Only 3 of the 13 skills in this repo are used; install with --skill, never the bare repo. |
-| **image-to-code** | Image-generation-first website build workflow. | [leonxlnx/taste-skill](https://github.com/leonxlnx/taste-skill) · MIT | ✅ vetted | `npx skills add https://github.com/leonxlnx/taste-skill --skill image-to-code` | Mostly inert unless an image-generation tool is available in the session. |
 | **scroll-craft** | Premium scroll-driven landing pages: journey and page grammar, dimensional heroes, one signature move, and screenshot-verified desktop, mobile and reduced-motion states. | [nateherkai/scroll-craft](https://github.com/nateherkai/scroll-craft) · MIT | ✅ vetted | `npx skills add https://github.com/nateherkai/scroll-craft --skill scroll-craft` | Verification needs ffmpeg, Chrome and `npm i playwright-core` in the build project; it drives headless Chromium with a fresh profile against localhost only, not your own browser. Optional image/video generation uses the paid kie.ai API (KIE_AI_API_KEY in .env); reference photos are uploaded to kie's temporary storage, deleted after 24 hours. `serve.mjs --lan` exposes the build folder to your network. Also ships as a Claude Code plugin (nateherk-design). |
 | **emil-design-eng** | Emil Kowalski's UI-polish and animation rules for interactive components: whether to animate, easing and duration by element, press and hover behaviour, springs, a review checklist. | [emilkowalski/skills](https://github.com/emilkowalski/skills) · MIT | ✅ vetted | `npx skills add https://github.com/emilkowalski/skills --skill emil-design-eng` | Single plain-text SKILL.md, no scripts or binaries (read before install; the author's account dates from 2018). Use on demand for buttons, cards, popovers and other interactive UI, not for scroll-driven scenes: it is tuned for UI under about 300 ms and has nothing on scroll. When first invoked with no question it answers with one fixed greeting line and waits. The same repo also holds animate, review-animations, animation-performance and other skills; only this one is installed. |
 
@@ -82,6 +78,10 @@ Plugins are a different mechanism from `npx skills add`: they live in `~/.claude
 |---|---|---|
 | browser-use | browser-use/browser-use | Real browser control (clicks, forms, cookies/sessions); flagged Med Risk by the installer's own Snyk scan; removed after installing. |
 | playwright-cli | microsoft/playwright | Same real-browser-control risk category; declined before installing, including its native installer path. |
+| frontend-design | anthropics/skills | Second "be bold and distinctive" design lead competing with impeccable; removed 2026-10-21 to avoid conflicting design direction. |
+| redesign-existing-projects | leonxlnx/taste-skill | Redesign/audit/polish is already covered by impeccable, with its own overlapping anti-pattern list and motion rules; removed 2026-10-21. |
+| image-to-code | leonxlnx/taste-skill | Codex-oriented workflow that makes image generation mandatory first, which clashes with impeccable and scroll-craft; removed 2026-10-21. |
+| ui-ux-pro-max | nextlevelbuilder/ui-ux-pro-max-skill | Third design authority overlapping impeccable, with GSAP presets that compete with emil-design-eng and scroll-craft; its search commands depend on ${CLAUDE_PLUGIN_ROOT}, which is not set for skills in ~/.claude/skills. Removed 2026-10-21. |
 
 ## Never provision
 

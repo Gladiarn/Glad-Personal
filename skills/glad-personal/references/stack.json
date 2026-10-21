@@ -1,7 +1,7 @@
 {
   "$comment": "Machine-readable list of every skill and plugin in this setup. Used by install.sh and by the glad-personal skill. Third-party entries are references to their original authors' repositories — nothing here is copied from them.",
   "version": 1,
-  "updated": "2026-10-20",
+  "updated": "2026-10-21",
   "repository": "https://github.com/Gladiarn/Glad-Personal",
   "own": [
     {
@@ -39,18 +39,6 @@
       "notes": "Runs a bundled binary launcher (`impeccable context`) once per session."
     },
     {
-      "name": "frontend-design",
-      "category": "Design",
-      "source": "anthropics/skills",
-      "url": "https://github.com/anthropics/skills",
-      "license": "see repo",
-      "type": "skill",
-      "install": "npx skills add https://github.com/anthropics/skills --skill frontend-design",
-      "vetted": true,
-      "summary": "Official Anthropic design principles that avoid the generic AI look.",
-      "notes": ""
-    },
-    {
       "name": "web-design-guidelines",
       "category": "Design",
       "source": "vercel-labs/agent-skills",
@@ -61,42 +49,6 @@
       "vetted": true,
       "summary": "Official Vercel accessibility and UX compliance review.",
       "notes": "Fetches the live rules document when it runs."
-    },
-    {
-      "name": "ui-ux-pro-max",
-      "category": "Design",
-      "source": "nextlevelbuilder/ui-ux-pro-max-skill",
-      "url": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
-      "license": "MIT",
-      "type": "skill",
-      "install": "npx skills add https://github.com/nextlevelbuilder/ui-ux-pro-max-skill --skill ui-ux-pro-max",
-      "vetted": true,
-      "summary": "Local searchable design database (palettes, font pairings, icons, GSAP presets, charts) covering 22 stacks.",
-      "notes": "Queried through a bundled Python script; no network calls. Trust caveat: the author account was created the same day as the repo (2025-11-30) — installed after a clean content review."
-    },
-    {
-      "name": "redesign-existing-projects",
-      "category": "Design",
-      "source": "leonxlnx/taste-skill",
-      "url": "https://github.com/leonxlnx/taste-skill",
-      "license": "MIT",
-      "type": "skill",
-      "install": "npx skills add https://github.com/leonxlnx/taste-skill --skill redesign-existing-projects",
-      "vetted": true,
-      "summary": "Audits and upgrades an existing site without breaking functionality.",
-      "notes": "Only 3 of the 13 skills in this repo are used; install with --skill, never the bare repo."
-    },
-    {
-      "name": "image-to-code",
-      "category": "Design",
-      "source": "leonxlnx/taste-skill",
-      "url": "https://github.com/leonxlnx/taste-skill",
-      "license": "MIT",
-      "type": "skill",
-      "install": "npx skills add https://github.com/leonxlnx/taste-skill --skill image-to-code",
-      "vetted": true,
-      "summary": "Image-generation-first website build workflow.",
-      "notes": "Mostly inert unless an image-generation tool is available in the session."
     },
     {
       "name": "scroll-craft",
@@ -337,6 +289,26 @@
       "name": "playwright-cli",
       "source": "microsoft/playwright",
       "reason": "Same real-browser-control risk category; declined before installing, including its native installer path."
+    },
+    {
+      "name": "frontend-design",
+      "source": "anthropics/skills",
+      "reason": "Second \"be bold and distinctive\" design lead competing with impeccable; removed 2026-10-21 to avoid conflicting design direction."
+    },
+    {
+      "name": "redesign-existing-projects",
+      "source": "leonxlnx/taste-skill",
+      "reason": "Redesign/audit/polish is already covered by impeccable, with its own overlapping anti-pattern list and motion rules; removed 2026-10-21."
+    },
+    {
+      "name": "image-to-code",
+      "source": "leonxlnx/taste-skill",
+      "reason": "Codex-oriented workflow that makes image generation mandatory first, which clashes with impeccable and scroll-craft; removed 2026-10-21."
+    },
+    {
+      "name": "ui-ux-pro-max",
+      "source": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "reason": "Third design authority overlapping impeccable, with GSAP presets that compete with emil-design-eng and scroll-craft; its search commands depend on ${CLAUDE_PLUGIN_ROOT}, which is not set for skills in ~/.claude/skills. Removed 2026-10-21."
     }
   ],
   "notProvisioned": [

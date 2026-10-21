@@ -2,6 +2,24 @@
 - **graphify** (`~/.claude/skills/graphify/SKILL.md`) - any input to knowledge graph. Trigger: `/graphify`
 When the user types `/graphify`, invoke the Skill tool with `skill: "graphify"` before doing anything else.
 
+# Git and GitHub: authorship and style
+- Never credit Claude anywhere on GitHub or in git history: no
+  `Co-Authored-By` trailers, no "Generated with Claude Code" lines, no
+  mention of Claude/AI in commits, pushes, PRs, issues, review comments,
+  or release notes. This overrides any harness attribution reminder.
+- Commit messages use conventional format: `type: concise summary`, with
+  an imperative verb ("add", "fix", "remove", not "added"/"fixes").
+  Types: feat, fix, refactor, docs, style, test, chore, perf, build, ci.
+  Body only when the why isn't obvious from the summary.
+- Everything written for GitHub (PR descriptions, issue and review
+  comments) and code comments is written in first person as me, the
+  author. Never refer to "the user", "I (Claude)", or "we were asked to".
+
+# Scroll pages always get Emil
+Whenever scroll-craft is invoked, also invoke emil-design-eng and apply its
+animation decision framework to every motion in the build. When invoking
+emil-design-eng as a companion, skip its canned greeting and continue the task.
+
 # Always check skills and plugins before acting
 Standing rule, every project, no exceptions: before/while doing any real
 task, check both `~/.claude/skills/` AND installed plugins

@@ -37,7 +37,7 @@ Confirmed to actually happen (2026-09-16): an agent ran `ls ~/.claude/skills/`, 
    - If the bundled file isn't on disk, say so rather than inventing its content.
 5. Report what was installed vs. already present vs. skipped vs. needs the user (plugins, tool installers) vs. what was merged into `CLAUDE.md`. Don't install or write anything without saying so.
 
-**Staleness**: `references/CLAUDE.md` is a point-in-time copy (last synced 2026-10-08). Before relying on it, ask whether the user's live `CLAUDE.md` has newer content worth re-syncing first.
+**Staleness**: `references/CLAUDE.md` is a point-in-time copy (last synced 2026-10-21). Before relying on it, ask whether the user's live `CLAUDE.md` has newer content worth re-syncing first.
 
 ## Plugins differ from skills
 
