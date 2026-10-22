@@ -13,7 +13,8 @@ metadata:
 This skill assumes the main session runs on Sonnet 5.5 (`/model sonnet`).
 The main session never switches models. Opus 5.5 is used only through subagents
 (model "opus"), and only for the jobs listed below. Spawn every Opus subagent
-with effort "medium".
+with effort "medium". Reviewer subagents follow the model decision: Opus
+reviewer, effort "medium"; Sonnet reviewer, effort "high".
 
 **If the main session is not on Sonnet:** you cannot switch it yourself. Tell
 the user once to run `/model sonnet`, then carry on. On Opus the steps still
@@ -50,11 +51,12 @@ Each job runs once, on the model this skill assigns:
 - **Execution:** recommend executing-plans (build in this session). If the
   user picks subagent-driven-development, its implementers and task reviewers
   use model "sonnet", except task reviewers for the high-risk categories above,
-  which use "opus".
-- **Review:** one fresh-context final review. Use model "opus" only if the diff
-  touches auth, payments, permissions or schema migrations, or is a large
-  refactor; otherwise "sonnet", even though executing-plans suggests the most
-  capable model. It replaces Step 5; never run both.
+  which use "opus" with effort "medium". Sonnet task reviewers use effort "high".
+- **Review:** one fresh-context final review. Use model "opus" (effort
+  "medium") only if the diff touches auth, payments, permissions or schema
+  migrations, or is a large refactor; otherwise "sonnet" (effort "high"), even
+  though executing-plans suggests the most capable model. It replaces Step 5;
+  never run both.
 
 ## When to skip this skill
 Typos, renames, small single-file edits, config tweaks, or anything where the
@@ -109,4 +111,6 @@ Do not escalate casually. Opus is for what Sonnet could not do.
 - Default: self-check on Sonnet. Tests failed for the right reason first, no
   tests were weakened, skipped, or deleted, and the diff stays within the plan.
 - For the high-risk categories above: spawn ONE fresh-context subagent with
-  model "opus" to review the diff.
+  model "opus" and effort "medium" to review the diff.
+- If a fresh-context review is wanted for anything else, spawn it with model
+  "sonnet" and effort "high".
