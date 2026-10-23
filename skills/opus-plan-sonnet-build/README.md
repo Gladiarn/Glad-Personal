@@ -12,7 +12,7 @@ You (on Opus):  "The CSV import spec is approved, build it."   (about 9 files)
   → new endpoints, so Opus rereads the diff as an attacker
 ```
 
-- **Version:** 2.0.0 · **License:** MIT · **Works with:** Claude Code (it relies on subagents with a per-spawn model and effort)
+- **Version:** 2.1.0 · **License:** MIT · **Works with:** Claude Code (it relies on subagents with a per-spawn model and effort)
 
 ---
 
@@ -23,6 +23,7 @@ You (on Opus):  "The CSV import spec is approved, build it."   (about 9 files)
 | Small or medium: a few files, a bug fix, a contained feature | **A.** Opus does everything in your session, test-first. |
 | Long build from an approved spec or plan (about 5+ files or 4+ tasks, mostly mechanical) | **B.** Opus writes a short plan; one Sonnet subagent (effort high) builds it; Opus checks the diff and runs the tests. |
 | Visual or interactive work you watch step by step | **C.** Built in your session with no plan file. It suggests `/model sonnet` for that stretch. |
+| Heavy test runs on any route: browser (Playwright, WebKit, Cypress), API or integration suites that need a server or database, long logs | One Sonnet test-runner subagent (effort medium) runs them and reports failures; Opus fixes. Reruns reuse the same runner. Quick unit tests stay in your session. |
 | Anything touching auth, payments, permissions, data migrations or public endpoints | Also a **risk review**: Opus rereads the diff as an attacker. Payments, login/session/token code and data-rewriting migrations also get one fresh Opus reviewer at the end of the phase. |
 
 ### What changed from 1.x
@@ -118,6 +119,13 @@ Typos, renames, single-file tweaks, config edits, questions about code. Opus jus
 | S3: Stripe billing, plan agreed | B + risk review + one Opus reviewer | 0/2 (reviewer yes, no attacker reread, building in your session) | **3/3** |
 | S4: landing-page hero and scroll sections, watched live | C: inline, no plan file | 1/2 (one run spawned an Opus planner) | **3/3** |
 
+2.1 adds two test-heavy tasks (2.0 as the baseline, 3 runs; 2.1, 2 runs), and S1–S4 were re-run on 2.1 (2 runs each, all on route):
+
+| Task | Intended | 2.0 | 2.1 |
+|---|---|---|---|
+| S5: Safari bug, verified by the Playwright WebKit suite and API tests | Opus fixes; one Sonnet test runner runs both suites | 0/3 (Opus ran the server, database and both suites itself) | **2/2** |
+| S6: one-function fix with a unit test that runs in a second | Run inline, no runner | 3/3 | **2/2** |
+
 All 8 runs on 1.1.2 asked you to switch to `/model sonnet`; no 2.0 run did. On a one-handler public endpoint (S2), 2.0 runs a short hostile-input check, which is cheap and intended. **Limits:** these runs describe the plan, they don't execute it, so they test the routing decision, not the cost or the build quality.
 
 ### Triggering (description unchanged since 1.1)
@@ -135,7 +143,7 @@ Re-run both tests yourself (needs the Claude Code CLI, signed in):
 
 ```bash
 bash evals/trigger-test.sh         # 3 runs per prompt, Sonnet
-bash evals/route-test.sh           # 3 runs per task, Opus
+bash evals/route-test.sh           # 3 runs per task, Opus (SCEN="S5 S6" for a subset)
 SKILL=none bash evals/route-test.sh 3   # no-skill control
 ```
 
@@ -202,7 +210,7 @@ Claude Code's `/model opusplan` uses Opus in plan mode and Sonnet otherwise, so 
 | File | Purpose |
 |---|---|
 | `SKILL.md` | The instructions the agent follows |
-| `evals/route-test.sh` | Routing test: which route Opus picks for four tasks |
+| `evals/route-test.sh` | Routing test: which route Opus picks for six tasks |
 | `evals/trigger-prompts.tsv` | Test prompts and whether each should load the skill |
 | `evals/trigger-test.sh` | Runs the trigger test |
 | `LICENSE` | MIT |

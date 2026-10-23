@@ -3,7 +3,7 @@ name: opus-plan-sonnet-build
 description: "Use whenever a coding task needs a plan or is hard or risky: new features, changes across several files, refactors, auth, payments or data migrations, or a bug that a fix has already failed to solve (load it together with systematic-debugging). Load it alongside planning, brainstorming or TDD skills, never instead of them; it only decides which model does each part. Not for typos, renames, single-file tweaks, config edits or questions about code."
 license: MIT
 metadata:
-  version: 2.0.0
+  version: 2.1.0
   author: Gladiarn
   repository: https://github.com/Gladiarn/Glad-Personal
 ---
@@ -47,11 +47,29 @@ endpoints also gets the **risk review** below.
    - that it stops and reports if a task fails twice or the plan looks wrong
    - its report: files changed, test command and result, deviations from the
      plan, open questions
-3. **Check it here:** read the full diff, run the tests yourself, and compare
-   against the plan's acceptance criteria. Fix small gaps inline. For a large
+3. **Check it here:** read the full diff, run the quick tests yourself (heavy
+   suites go to the test runner below), and compare against the plan's
+   acceptance criteria. Fix small gaps inline. For a large
    miss, continue the same subagent with SendMessage and a precise list.
 
 If the subagent reports it is stuck, take that piece over in this session.
+
+## Heavy test runs: Sonnet runs them, Opus reads the result
+On every route, a test run is **heavy** if it needs a browser (Playwright,
+WebKit, Cypress, screenshots), a running server or database (API and
+integration suites), or produces long logs. Unit tests that finish in
+seconds are not heavy: run them here.
+
+Spawn ONE test-runner subagent, model "sonnet", effort "medium", the first
+time a heavy run is needed. Its brief contains:
+- the exact commands, and how to start the server and the database
+- the specs or test files to run
+- that it must not edit source or tests; if setup breaks, it reports how
+- its report: pass/fail counts, and for each failure the test name, the first
+  error lines, and the trace or screenshot path
+
+Write and fix the tests and code here. For every rerun, continue the same
+subagent with SendMessage, since its server and context are already warm.
 
 ## Risk review
 1. **Always, inline:** reread the diff as an attacker and as a hostile input.

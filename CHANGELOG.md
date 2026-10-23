@@ -2,6 +2,11 @@
 
 Versions follow [Semantic Versioning](https://semver.org/) per skill. For `production-readiness`, a new gate item or a change to the verdict rule is a minor or major version; wording and documentation fixes are patches.
 
+## 2026-10-23 — opus-plan-sonnet-build 2.1.0
+
+- **Heavy test runs go to Sonnet.** Browser suites (Playwright, WebKit, Cypress), API and integration suites that need a server or database, and runs with long logs now go to one Sonnet test-runner subagent at effort "medium". It doesn't edit code, and it reports counts and failure details. Opus fixes the code, and every rerun reuses the same runner. Unit tests that finish in seconds stay in the main session.
+- **Tested:** two new `route-test.sh` scenarios. A Safari bug verified by WebKit e2e and API tests used the runner in 0/3 runs on 2.0 and 2/2 on 2.1. A one-second unit test stayed inline in 2/2. S1–S4 kept their routes.
+
 ## 2026-10-23 — opus-plan-sonnet-build 2.0.0
 
 - **Breaking: the main session is now Opus (medium effort), not Sonnet.** Opus plans inline. The Opus planner subagent and the plan-critique pass are removed.

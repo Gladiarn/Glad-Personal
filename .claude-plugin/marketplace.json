@@ -20,7 +20,7 @@
     {
       "name": "opus-plan-sonnet-build",
       "description": "Model routing for coding tasks: Opus runs your session, plans and reviews; one Sonnet subagent builds long, already-planned work test-first.",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "source": "./",
       "skills": ["./skills/opus-plan-sonnet-build"],
       "author": { "name": "Gladiarn" },
