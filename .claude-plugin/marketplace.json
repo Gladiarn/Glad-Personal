@@ -1,0 +1,45 @@
+{
+  "name": "glad-personal",
+  "description": "Tested agent skills for Claude Code: production-readiness audits, Opus-plans-Sonnet-builds model routing, and backend-ready frontend architecture.",
+  "owner": {
+    "name": "Gladiarn"
+  },
+  "plugins": [
+    {
+      "name": "production-readiness",
+      "description": "Audit whether an app is ready for production, with an evidence-backed checklist and a hard verdict: NOT READY, READY WITH CONDITIONS or READY.",
+      "version": "1.1.0",
+      "source": "./",
+      "skills": ["./skills/production-readiness"],
+      "author": { "name": "Gladiarn" },
+      "homepage": "https://github.com/Gladiarn/Glad-Personal/tree/main/skills/production-readiness",
+      "repository": "https://github.com/Gladiarn/Glad-Personal",
+      "license": "MIT",
+      "keywords": ["production", "audit", "security", "ci-cd", "launch"]
+    },
+    {
+      "name": "opus-plan-sonnet-build",
+      "description": "Model routing for coding tasks: Opus runs your session, plans and reviews; one Sonnet subagent builds long, already-planned work test-first.",
+      "version": "2.0.0",
+      "source": "./",
+      "skills": ["./skills/opus-plan-sonnet-build"],
+      "author": { "name": "Gladiarn" },
+      "homepage": "https://github.com/Gladiarn/Glad-Personal/tree/main/skills/opus-plan-sonnet-build",
+      "repository": "https://github.com/Gladiarn/Glad-Personal",
+      "license": "MIT",
+      "keywords": ["models", "opus", "sonnet", "planning", "tdd", "subagents"]
+    },
+    {
+      "name": "glad-frontend",
+      "description": "Make frontend UI backend-ready by construction: repository pattern, swappable mock and real data, real loading, error and empty states.",
+      "version": "1.0.0",
+      "source": "./",
+      "skills": ["./skills/glad-frontend"],
+      "author": { "name": "Gladiarn" },
+      "homepage": "https://github.com/Gladiarn/Glad-Personal/tree/main/skills/glad-frontend",
+      "repository": "https://github.com/Gladiarn/Glad-Personal",
+      "license": "MIT",
+      "keywords": ["frontend", "react", "mock-data", "repository-pattern", "architecture"]
+    }
+  ]
+}

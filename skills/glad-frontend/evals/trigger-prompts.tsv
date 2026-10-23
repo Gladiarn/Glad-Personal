@@ -1,0 +1,14 @@
+Y1	yes	I'm building a Next.js admin dashboard. Build a page with a table showing customer orders (order id, customer name, total, status). We don't have the backend API yet, but I want it ready to plug in later without rewriting the page.
+Y2	yes	Add a product grid to the storefront homepage — image, name, price, add-to-cart button, maybe 12-20 products. Backend isn't ready, just use placeholder data for now but make it swappable later.
+Y3	yes	Build a settings page with a list of team members (name, email, role) that I can remove people from.
+Y4	yes	Scaffold the invoices list page in our React app. The API isn't built yet but I want to be able to hook it up later without touching the components.
+Y5	yes	Make a dashboard with KPI cards and a recent-activity feed using fake data for now. Backend comes next sprint.
+Y6	yes	Create the signup form UI. The endpoint doesn't exist yet, so mock it, and I want to swap in the real one easily.
+N1	no	Fix the typo "recieve" in the footer.
+N2	no	Make the hero background darker and the headline bigger.
+N3	no	Add rate limiting to the Express login route.
+N4	no	What does the useMemo hook do in Header.tsx?
+N5	no	Write a Prisma migration that adds a status column to orders.
+N6	no	Build a marketing landing page for a coffee shop with scroll animations. All the copy is already written.
+N7	no	Is this app production ready?
+N8	no	Our product list page is crashing in production with "cannot read properties of undefined". Find the bug.

@@ -17,7 +17,7 @@ Agent skills make coding agents much better at specific jobs: auditing a launch,
 
 ## What this repository does about it
 
-- **Original skills, built test-first.** Each skill here was tested against an agent *without* it first, then written to fix what went wrong, and re-tested. Every README says how it was tested and what still doesn't work.
+- **Original skills, tested against a baseline.** Each skill here is compared with an agent *without* it, and its description is tested for triggering. The README of every skill that changes agent behavior (`production-readiness`, `opus-plan-sonnet-build`, `glad-frontend`) says how it was tested, with the numbers, and what still doesn't work.
 - **A vetted catalog, not copies.** Third-party skills are **referenced, not copied**: the [catalog](catalog/README.md) points to each original repository and installs from there, so authors keep their licenses and you always get their latest version. Each entry was checked against a written [vetting checklist](catalog/README.md#how-new-skills-get-vetted); the ones that were declined are listed too, with the reason.
 - **One-command setup.** `./install.sh --all` installs everything, on any machine, the same way.
 
@@ -28,7 +28,7 @@ Agent skills make coding agents much better at specific jobs: auditing a launch,
 | Skill | What it does | Auto-triggers? |
 |---|---|---|
 | [**production-readiness**](skills/production-readiness/) | Audits whether an app is ready for production — auth & security, rate limiting, CI/CD, scaling, monitoring, backups & recovery — and returns an evidence-backed report with a hard verdict: **NOT READY / READY WITH CONDITIONS / READY**. | Yes |
-| [**opus-plan-sonnet-build**](skills/opus-plan-sonnet-build/) | Decides which model does each part of a coding task: Opus plans and handles the hardest pieces through subagents, Sonnet builds test-first in your session. Opus quality where it matters, lower cost everywhere else. | Yes |
+| [**opus-plan-sonnet-build**](skills/opus-plan-sonnet-build/) | Decides which model does each part of a coding task: Opus runs your session, plans and reviews, and hands long, already-planned builds to one Sonnet subagent. Small and risky work never leaves Opus. The saving on long builds is not measured yet; see the skill's README. | Yes |
 | [**glad-frontend**](skills/glad-frontend/) | Makes frontend UI backend-ready by construction: repository pattern, swappable mock/real data, real loading/error/empty states. Data architecture only — pair with a design skill. | Yes |
 | [**glad-personal**](skills/glad-personal/) | Provisions a new machine: installs everything below and sets up the global `CLAUDE.md`. | No (manual) |
 
@@ -47,6 +47,18 @@ npx skills add https://github.com/Gladiarn/Glad-Personal --skill production-read
 ```
 
 Swap the name for any skill above. For a third-party skill, use the command in its [catalog](catalog/README.md) row.
+
+### As a Claude Code plugin
+
+Run inside Claude Code (needs 2.1.275 or later for the one-step form):
+
+```
+/plugin install production-readiness --marketplace Gladiarn/Glad-Personal
+/plugin install opus-plan-sonnet-build --marketplace Gladiarn/Glad-Personal
+/plugin install glad-frontend --marketplace Gladiarn/Glad-Personal
+```
+
+Plugins are namespaced (`production-readiness:production-readiness`) and update with `/plugin update`.
 
 ### All my skills
 

@@ -2,6 +2,31 @@
 
 Versions follow [Semantic Versioning](https://semver.org/) per skill. For `production-readiness`, a new gate item or a change to the verdict rule is a minor or major version; wording and documentation fixes are patches.
 
+## 2026-10-23 — opus-plan-sonnet-build 2.0.0
+
+- **Breaking: the main session is now Opus (medium effort), not Sonnet.** Opus plans inline. The Opus planner subagent and the plan-critique pass are removed.
+- **Three routes.** A: small and medium tasks stay entirely on Opus. B: a long build from an approved spec or plan (about 5+ files or 4+ tasks) gets a short plan file (tests and intent, no full code) and goes to one Sonnet subagent at effort "high"; Opus reads the diff and runs the tests. C: visual or interactive work is built inline, and the skill suggests `/model sonnet` for that stretch.
+- **Risk review.** Every change touching auth, payments, permissions, data migrations or public endpoints gets an inline attacker reread on Opus. A fresh-context Opus reviewer (effort "medium") is kept only for payments, login/session/token handling and data-rewriting migrations, once per phase.
+- **Why:** under 1.x the Opus planner often never ran (2 of 4 real sessions, 1 headless run), and on a small task the skill cost more than Opus alone ($0.48 vs $0.44).
+- **Tested:** new `evals/route-test.sh`. Intended route taken 12/12 on 2.0 (3 runs × 4 tasks), against 3/8 on 1.1.2, where every run asked to switch to `/model sonnet`. The description is unchanged, so the trigger results still apply. The cost saving on long builds is still unmeasured.
+
+## 2026-10-23 — opus-plan-sonnet-build 1.1.2
+
+- **First cost measurement (README only, skill behavior unchanged).** One small permissions task, run three ways: Sonnet alone $0.15, Opus alone $0.44, this skill $0.48. No saving on a small task, and the skill did not load unprompted in a headless run (it had to be named). With it, the run ended with the fewest security gaps because the Opus review caught one. The README and the root README now say the saving is unproven instead of "not measured" / "lower cost everywhere else".
+- **No hard-coded model versions in `SKILL.md`.** It said "Sonnet 5.5" and "Opus 5.5" in the opening paragraph and two headings; it now says the newest Sonnet and Opus, which is what the `opus` and `sonnet` aliases already resolved to. Meaning unchanged. The README keeps version numbers only where they are accurate records (the pinning example, and which model the trigger tests ran on).
+
+## 2026-10-23 — repository tooling
+
+- **Added `scripts/validate-skills.mjs`** and a GitHub Actions workflow that runs it on every push and pull request. It checks each skill's frontmatter (name matches the folder, description under 1024 characters, license, semver version), that each README states the same version as its `SKILL.md`, that relative links resolve, and that the plugin manifest matches. It caught `opus-plan-sonnet-build`'s README still saying 1.1.0 after the skill moved to 1.1.1; fixed.
+- **Added `.claude-plugin/marketplace.json`:** each of the three product skills can now be installed as a Claude Code plugin (`/plugin marketplace add Gladiarn/Glad-Personal`). The existing `npx skills add` and symlink installs are unchanged.
+- Added `CONTRIBUTING.md` and `SECURITY.md`.
+- **`glad-frontend` (still 1.0.0, `SKILL.md` unchanged):** added a "How it was tested" and a "Limitations" section to its README, a trigger test (`evals/trigger-test.sh`, 14 prompts) and its results. Output test: with the skill, 6 of 6 builds had a repository interface with two implementations, a slow mock that can fail, and loading, error and empty states; without it, 0 of 3 had the interface or the simulated latency and failures, and only 1 of 3 had a loading state and 1 of 3 an error state for loading the data. Trigger test: 42/42 correct, and a shorter description scored the same, so the original was kept. The first no-skill baseline was discarded because the agents loaded the globally installed skill on their own.
+- Root README: the claim that every README says how its skill was tested now names the three skills that change agent behavior, which is accurate.
+
+## 2026-10-22 — opus-plan-sonnet-build 1.1.1
+
+- Opus subagents (planner, plan critique, escalations) are spawned at effort "medium", replacing "high" from 1.0.1. Reviewer subagents follow the model decision: Opus reviewer at "medium", Sonnet reviewer at "high".
+
 ## 2026-10-21 — catalog: trimmed overlapping design skills; CLAUDE.md re-synced
 
 - **Moved `frontend-design`, `redesign-existing-projects`, `image-to-code` and `ui-ux-pro-max` from the catalog to `declined`.** All four overlap `impeccable`, which already covers design, redesign, audit, polish and animation, and two of them pull in a different direction: `frontend-design` is a second "be bold" design lead, and `image-to-code` makes generating a mockup image mandatory first. `ui-ux-pro-max` also depends on `${CLAUDE_PLUGIN_ROOT}`, which is not set for skills installed in `~/.claude/skills`. The design set is now `impeccable`, `web-design-guidelines`, `scroll-craft` and `emil-design-eng`.

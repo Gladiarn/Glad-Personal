@@ -3,114 +3,76 @@ name: opus-plan-sonnet-build
 description: "Use whenever a coding task needs a plan or is hard or risky: new features, changes across several files, refactors, auth, payments or data migrations, or a bug that a fix has already failed to solve (load it together with systematic-debugging). Load it alongside planning, brainstorming or TDD skills, never instead of them; it only decides which model does each part. Not for typos, renames, single-file tweaks, config edits or questions about code."
 license: MIT
 metadata:
-  version: 1.1.1
+  version: 2.0.0
   author: Gladiarn
   repository: https://github.com/Gladiarn/Glad-Personal
 ---
 
-# Model routing: Sonnet by default, Opus where judgment matters
+# Model routing: Opus thinks, Sonnet types the long builds
 
-This skill assumes the main session runs on Sonnet 5.5 (`/model sonnet`).
-The main session never switches models. Opus 5.5 is used only through subagents
-(model "opus"), and only for the jobs listed below. Spawn every Opus subagent
-with effort "medium". Reviewer subagents follow the model decision: Opus
-reviewer, effort "medium"; Sonnet reviewer, effort "high".
+The main session runs on the newest Opus at medium effort (`/model opus`).
+It plans, decides, reviews and does most of the work itself. Sonnet runs only
+as a subagent (model "sonnet", effort "high") that executes a long plan Opus
+already wrote. Nothing else gets a subagent by default: no planner, no
+plan critique and no routine reviewer.
 
-**If the main session is not on Sonnet:** you cannot switch it yourself. Tell
-the user once to run `/model sonnet`, then carry on. On Opus the steps still
-work, they just save nothing.
+**If the main session is on Sonnet:** tell the user once that this skill
+expects `/model opus` for planning and review, then carry on doing everything
+in this session.
 
-**Model names:** "opus" and "sonnet" are aliases for the newest Opus and Sonnet
-(5.5 when this was written). Users who need a fixed version pin the aliases
-with `ANTHROPIC_DEFAULT_OPUS_MODEL` / `ANTHROPIC_DEFAULT_SONNET_MODEL`; keep
-passing the aliases.
+**Model names:** "opus" and "sonnet" are aliases for the newest models. Keep
+passing the aliases; users pin versions with `ANTHROPIC_DEFAULT_OPUS_MODEL` /
+`ANTHROPIC_DEFAULT_SONNET_MODEL`.
 
-## Sonnet 5.5 handles (stay in this session)
-- Well-scoped everyday coding: fixing bugs, iterating on features, verifying
-  against requirements
-- High-volume development and the TDD loop
-- Well-defined repeated tasks: investigation, review, drafting
-- Polished documents, slides, spreadsheets, diagrams, and document edits
+## Pick the route
 
-## Opus 5.5 handles (via subagent)
-1. **Planning** for non-trivial work
-2. **Enhancing the plan**: a second pass that checks the plan against the
-   requirements, finds gaps and risks, and tightens it before building
-3. **Hard or complex features** that need careful judgment, including
-   long-horizon work and the hardest problems, when Sonnet cannot handle them
-4. **Review of high-risk changes**: auth, payments, permissions, schema
-   migrations, large refactors
+| The task | Route |
+|---|---|
+| Small or medium: a few files, a bug fix, a contained feature | **A. Inline.** This session plans (in its head or a few lines), builds test-first and checks its own work. |
+| Long build from an approved spec or agreed plan: about 5+ files or 4+ plan tasks, and mostly mechanical once planned | **B. Plan here, Sonnet builds.** See below. |
+| Interactive or visual work the user watches step by step: layout, animation, styling, tuning in the browser | **C. Inline, no plan file.** Suggest once that the user runs `/model sonnet` for the stretch and `/model opus` after. |
+
+Any route that touches auth, payments, permissions, data migrations or public
+endpoints also gets the **risk review** below.
+
+## Route B: plan here, Sonnet builds
+1. **Write a short plan file** in this session (where writing-plans says, or
+   `docs/plans/`). For each task: files, what changes, the tests to write
+   first (with edge cases), and acceptance criteria. No full code. Sonnet
+   writes the code. About one screen per 5 tasks.
+2. **Spawn ONE subagent**, model "sonnet", effort "high". Its brief contains:
+   - the plan file path, and that it follows the plan in order without re-planning
+   - that it builds test-first with the test-driven-development skill
+   - that it must not commit
+   - that it stops and reports if a task fails twice or the plan looks wrong
+   - its report: files changed, test command and result, deviations from the
+     plan, open questions
+3. **Check it here:** read the full diff, run the tests yourself, and compare
+   against the plan's acceptance criteria. Fix small gaps inline. For a large
+   miss, continue the same subagent with SendMessage and a precise list.
+
+If the subagent reports it is stuck, take that piece over in this session.
+
+## Risk review
+1. **Always, inline:** reread the diff as an attacker and as a hostile input.
+   Check every path for authorization: the owner/id checks, missing or null
+   ids, and another user's ids. Also check replayed or duplicate requests,
+   secrets in code or logs, and partial failure and rollback. Fix what breaks
+   the requirement or security. List any other ideas for the user and don't
+   build them.
+2. **Plus one fresh-context reviewer**, model "opus", effort "medium", only for
+   payments, login/session/token handling, or migrations that rewrite existing
+   data. Run it once, when the phase ends, on the whole diff.
 
 ## With superpowers skills loaded
-Each job runs once, on the model this skill assigns:
-- **brainstorming:** in this session, on Sonnet. It is a conversation with the user.
-- **writing-plans:** the Opus planning subagent writes this plan, in that
-  skill's format, instead of the Step 1 plan, and returns it; this session
-  saves it where writing-plans says. Never write a second plan on Sonnet.
-  Step 2 critiques it.
-- **Execution:** recommend executing-plans (build in this session). If the
-  user picks subagent-driven-development, its implementers and task reviewers
-  use model "sonnet", except task reviewers for the high-risk categories above,
-  which use "opus" with effort "medium". Sonnet task reviewers use effort "high".
-- **Review:** one fresh-context final review. Use model "opus" (effort
-  "medium") only if the diff touches auth, payments, permissions or schema
-  migrations, or is a large refactor; otherwise "sonnet" (effort "high"), even
-  though executing-plans suggests the most capable model. It replaces Step 5;
-  never run both.
+- **brainstorming:** this session.
+- **writing-plans:** this session writes the plan in that skill's format,
+  but uses route B's short form: tests and intent, not full code.
+- **executing-plans / subagent-driven-development:** for route B, the Sonnet
+  subagent above replaces them. Use one subagent for the whole plan, not
+  one per task. This session does the checking.
+- **Final review:** route B's check plus the risk review replace the
+  "most capable model" reviewer, since this session already is that model.
 
-## When to skip this skill
-Typos, renames, small single-file edits, config tweaks, or anything where the
-approach is already obvious. Just do it directly on Sonnet.
-
-## Step 1: Plan (Opus subagent)
-Spawn ONE subagent with model "opus". It is read-only and must not edit files.
-
-Brief it with:
-- the goal and constraints
-- file paths already known to be relevant
-- that the work will be done test-first (TDD)
-
-Ask it to return a plan of roughly 400 words or less:
-1. files to change, and why
-2. ordered implementation steps
-3. tests to write first, including edge cases
-4. risks and ambiguities
-5. acceptance criteria
-
-Tell it to read only what it needs and not to explore the codebase broadly.
-One planning subagent per task. Never one per step.
-
-## Step 2: Enhance the plan (same Opus subagent)
-Before building, send the plan back to the SAME subagent (continue it with
-SendMessage, do not spawn a new one) and ask it to critique and tighten it:
-missing edge cases, wrong assumptions, steps that are too large, untested
-risks. Use the improved plan. Skip this step for small or low-risk tasks.
-
-## Step 3: Build (this session, Sonnet)
-- **REQUIRED SUB-SKILL:** implement the plan with your test-driven-development
-  skill (for example `superpowers:test-driven-development` or `tdd`).
-- Do not re-plan. Follow the plan as written. If the plan turns out to be
-  wrong, escalate (Step 4).
-
-## Step 4: Escalate to Opus when Sonnet is not enough
-Escalate when any of these is true:
-- the same problem fails twice
-- the change needs careful judgment across many files or a long horizon
-- tests fail for reasons that stay unclear after one honest investigation
-- the plan turns out to be wrong
-
-How:
-- For a contained piece of work, give it to an Opus subagent with a thorough
-  brief (goal, relevant files, what was tried, what failed). It does not see
-  this conversation, so include everything it needs.
-- For a long stretch of hard work, tell the user it is worth running
-  `/model opus` for that stretch. This resets the cache once.
-Do not escalate casually. Opus is for what Sonnet could not do.
-
-## Step 5: Review
-- Default: self-check on Sonnet. Tests failed for the right reason first, no
-  tests were weakened, skipped, or deleted, and the diff stays within the plan.
-- For the high-risk categories above: spawn ONE fresh-context subagent with
-  model "opus" and effort "medium" to review the diff.
-- If a fresh-context review is wanted for anything else, spawn it with model
-  "sonnet" and effort "high".
+## Bugs a fix already failed to solve
+Stay in this session with systematic-debugging. Don't hand them to a subagent.
