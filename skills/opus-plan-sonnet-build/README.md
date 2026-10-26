@@ -12,7 +12,7 @@ You (on Opus):  "The CSV import spec is approved, build it."   (about 9 files)
   → new endpoints, so Opus rereads the diff as an attacker
 ```
 
-- **Version:** 2.1.0 · **License:** MIT · **Works with:** Claude Code (it relies on subagents with a per-spawn model and effort)
+- **Version:** 2.2.0 · **License:** MIT · **Works with:** Claude Code (it relies on subagents with a per-spawn model and effort)
 
 ---
 
@@ -102,11 +102,24 @@ Typos, renames, single-file tweaks, config edits, questions about code. Opus jus
 |---|---|
 | Brainstorming | Opus, your session |
 | The `writing-plans` plan | Opus, your session, in short form: tests and intent, not full code |
-| Building a long plan | one Sonnet subagent (effort high) for the whole plan, not one per task |
+| Building a long plan | one Sonnet subagent (effort high) for the whole plan, not one per task. This also applies when you say "execute the plan" and `executing-plans` would otherwise build it in your session. |
 | Checking the build | Opus, your session: full diff, tests run, acceptance criteria |
 | Final review | the check above plus the risk review; a fresh Opus reviewer only for payments, login/session/token or data-rewriting migrations |
 
 ## How it was tested
+
+### Real sessions (2.2)
+
+`evals/real-route-test.sh` runs a headless Opus session (medium effort) with your real Claude Code setup: the real system prompt, every installed skill and plugin, and your CLAUDE.md. It works in a scratch repo, and a hook records the first decisive action and blocks it, so nothing gets built. This is the test that matters. The two tests below show only what Opus *says* it will do, with this skill in front of it.
+
+| Scenario | 2.1 | 2.2 |
+|---|---|---|
+| R2: "The plan in docs/plans/csv-import.md is approved. Execute it." | skill loaded **0/7**, Sonnet builder **0/7**. Every run loaded `executing-plans` and started building in the Opus session. | skill loaded **7/7**, Sonnet builder (effort high) **7/7** |
+| R1: "The spec is approved. Plan it and build it." (about 9 files) | skill loaded 3/3, Sonnet builder 2/3; one run wrote the plan and asked for approval first | skill loaded 3/3, Sonnet builder 2/3; one run asked for plan approval |
+
+**What 2.1 got wrong:** the description fired only on "needs a plan / hard / risky". When a plan already existed and you said "execute it", `executing-plans` ("…as the implementer yourself") matched first, so this skill never loaded. 2.2 adds that case to the description, and route B now uses an existing plan as written.
+
+**Why the older tests missed it:** `route-test.sh` puts the skill in front of Opus directly, so it never checks whether the skill loads. `trigger-test.sh` lists only eight descriptions, and even with `executing-plans` added it scored this case 9/9 on 2.1. A real session lists about a hundred skills, and there the same request failed 0/7. Only the real-session test catches this kind of failure.
 
 ### Routing (2.0)
 
@@ -142,6 +155,7 @@ The description decides whether the skill loads, so it was tested on its own. Ea
 Re-run both tests yourself (needs the Claude Code CLI, signed in):
 
 ```bash
+bash evals/real-route-test.sh      # real sessions, 3 runs per scenario, Opus (SCEN="R2" for a subset)
 bash evals/trigger-test.sh         # 3 runs per prompt, Sonnet
 bash evals/route-test.sh           # 3 runs per task, Opus (SCEN="S5 S6" for a subset)
 SKILL=none bash evals/route-test.sh 3   # no-skill control
@@ -202,7 +216,7 @@ Claude Code's `/model opusplan` uses Opus in plan mode and Sonnet otherwise, so 
 |---|---|
 | The builder runs on Opus, not Sonnet | `CLAUDE_CODE_SUBAGENT_MODEL_FORCE` is set; it overrides every subagent's model. Unset it. |
 | It keeps telling you about `/model opus` | Your session is on Sonnet. Run `/model opus`, or ignore it: everything still runs in your session. |
-| A long build ran in your session instead of a subagent | It judged the task as route A or C. Say "use route B" or name the plan file. |
+| A long build ran in your session instead of a subagent | On 2.1, saying "execute the plan" loaded `executing-plans` instead of this skill; fixed in 2.2. Otherwise it judged the task as route A or C. Say "use route B" or name the plan file. |
 | Everything still costs a lot | Expected on small and medium tasks: those run on Opus by design. The saving is only on long builds. |
 
 ## Files
@@ -211,6 +225,8 @@ Claude Code's `/model opusplan` uses Opus in plan mode and Sonnet otherwise, so 
 |---|---|
 | `SKILL.md` | The instructions the agent follows |
 | `evals/route-test.sh` | Routing test: which route Opus picks for six tasks |
+| `evals/real-route-test.sh` | Real-session test: does the skill load and does Opus really spawn the Sonnet builder |
+| `evals/guard.mjs` | Hook for that test: logs tool calls and blocks the first spawn or code write |
 | `evals/trigger-prompts.tsv` | Test prompts and whether each should load the skill |
 | `evals/trigger-test.sh` | Runs the trigger test |
 | `LICENSE` | MIT |

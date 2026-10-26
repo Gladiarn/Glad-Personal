@@ -15,6 +15,8 @@ export model sys="You are a coding agent. These skills are installed. Before act
 - tdd: Test-driven development. Use when the user wants to build features or fix bugs test-first, mentions red-green-refactor, or wants integration tests.
 - systematic-debugging: Use when encountering any bug, test failure, or unexpected behavior, before proposing fixes.
 - writing-plans: Use when you have a spec or requirements for a multi-step task, before touching code.
+- executing-plans: Use when executing an implementation plan in the current session as the implementer yourself.
+- subagent-driven-development: Use when executing implementation plans with independent tasks in the current session.
 - brainstorming: Use before any creative work - creating features, building components, adding functionality, or modifying behavior.
 - frontend-design: Guidance for distinctive, intentional visual design when building new UI or reshaping an existing one.
 - production-readiness: Use when asked whether an app is production ready, launch ready, or safe to go live.

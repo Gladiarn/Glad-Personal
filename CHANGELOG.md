@@ -2,6 +2,15 @@
 
 Versions follow [Semantic Versioning](https://semver.org/) per skill. For `production-readiness`, a new gate item or a change to the verdict rule is a minor or major version; wording and documentation fixes are patches.
 
+## 2026-10-26 — opus-plan-sonnet-build 2.2.0
+
+- **Fix: "execute the plan" now goes to the Sonnet builder.** When a plan already existed and the user said to execute it, the skill never loaded. `executing-plans` matched first, and Opus built the whole plan in its own session. The description now covers executing or implementing an existing plan or approved spec, and asks to be loaded before `executing-plans` and `subagent-driven-development`. Route B uses an existing plan as written instead of rewriting it.
+- **superpowers handoff:** at `writing-plans`' Execution Handoff, the method counts as already chosen (route B), so Opus asks only for plan approval and doesn't offer "Native" (build it in this session). The skill now overrides `executing-plans` and `subagent-driven-development` for route B even when one of them loaded first.
+- **SendMessage:** it can be a deferred tool, so the skill now says to load it with ToolSearch before continuing the builder.
+- **Removed a false claim:** the skill said the Opus session "already is" the most capable model. It isn't always (Fable ranks above Opus), and the reasoning didn't depend on it.
+- **New `evals/real-route-test.sh`:** a headless Opus session with the real Claude Code setup (system prompt, installed skills and plugins, CLAUDE.md), in a scratch repo, with a hook that records and blocks the first spawn or code write. "Plan approved, execute it": Sonnet builder spawned 0/7 on 2.1 vs 7/7 on 2.2. "Spec approved, plan and build it": 2/3 on both, and the third run each time stopped to ask for plan approval.
+- **Test gap found:** `route-test.sh` replaces the system prompt and gives Opus no tools, and `trigger-test.sh` lists only eight skills. Neither caught this failure: the trigger test scored the "execute the plan" prompts 9/9 on 2.1. `trigger-test.sh` now lists `executing-plans` and `subagent-driven-development` as neighbours and has three execute-a-plan prompts (51/51 on Opus).
+
 ## 2026-10-23 — opus-plan-sonnet-build 2.1.0
 
 - **Heavy test runs go to Sonnet.** Browser suites (Playwright, WebKit, Cypress), API and integration suites that need a server or database, and runs with long logs now go to one Sonnet test-runner subagent at effort "medium". It doesn't edit code, and it reports counts and failure details. Opus fixes the code, and every rerun reuses the same runner. Unit tests that finish in seconds stay in the main session.

@@ -14,7 +14,7 @@ Status: ✅ vetted = reviewed with the checklist below before installing · ⚪ 
 |---|---|---|
 | [**glad-frontend**](../skills/glad-frontend/) | Backend-ready frontend data architecture: repository pattern, swappable mock/real data, real loading/error/empty states. | `npx skills add https://github.com/Gladiarn/Glad-Personal --skill glad-frontend` |
 | [**production-readiness**](../skills/production-readiness/) | Evidence-backed production readiness audit with a hard verdict (NOT READY / READY WITH CONDITIONS / READY). | `npx skills add https://github.com/Gladiarn/Glad-Personal --skill production-readiness` |
-| [**opus-plan-sonnet-build**](../skills/opus-plan-sonnet-build/) | Model routing for Claude Code: Opus plans and handles the hardest pieces through subagents, Sonnet builds test-first in the main session. | `npx skills add https://github.com/Gladiarn/Glad-Personal --skill opus-plan-sonnet-build` |
+| [**opus-plan-sonnet-build**](../skills/opus-plan-sonnet-build/) | Model routing for Claude Code: Opus runs your session, plans and reviews; one Sonnet subagent builds long, already-planned work test-first. | `npx skills add https://github.com/Gladiarn/Glad-Personal --skill opus-plan-sonnet-build` |
 | [**glad-personal**](../skills/glad-personal/) | This manifest as a skill: provisions a new machine with the skills and plugins below and sets up the global CLAUDE.md. | `npx skills add https://github.com/Gladiarn/Glad-Personal --skill glad-personal` |
 
 ## Third-party skills

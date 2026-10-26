@@ -1,9 +1,9 @@
 ---
 name: opus-plan-sonnet-build
-description: "Use whenever a coding task needs a plan or is hard or risky: new features, changes across several files, refactors, auth, payments or data migrations, or a bug that a fix has already failed to solve (load it together with systematic-debugging). Load it alongside planning, brainstorming or TDD skills, never instead of them; it only decides which model does each part. Not for typos, renames, single-file tweaks, config edits or questions about code."
+description: "Use whenever a coding task needs a plan or is hard or risky: new features, changes across several files, refactors, auth, payments or data migrations, or a bug that a fix has already failed to solve (load it together with systematic-debugging). Also use when told to execute, implement or build an existing plan or approved spec: load it before executing-plans or subagent-driven-development. Load it alongside planning, brainstorming or TDD skills, never instead of them; it only decides which model does each part. Not for typos, renames, single-file tweaks, config edits or questions about code."
 license: MIT
 metadata:
-  version: 2.1.0
+  version: 2.2.0
   author: Gladiarn
   repository: https://github.com/Gladiarn/Glad-Personal
 ---
@@ -36,7 +36,10 @@ Any route that touches auth, payments, permissions, data migrations or public
 endpoints also gets the **risk review** below.
 
 ## Route B: plan here, Sonnet builds
-1. **Write a short plan file** in this session (where writing-plans says, or
+1. **If a plan file already exists** and the user says to execute or
+   implement it, use it as written and go to step 2. Don't rewrite it and
+   don't build it in this session.
+   **Otherwise write a short plan file** in this session (where writing-plans says, or
    `docs/plans/`). For each task: files, what changes, the tests to write
    first (with edge cases), and acceptance criteria. No full code. Sonnet
    writes the code. About one screen per 5 tasks.
@@ -51,6 +54,8 @@ endpoints also gets the **risk review** below.
    suites go to the test runner below), and compare against the plan's
    acceptance criteria. Fix small gaps inline. For a large
    miss, continue the same subagent with SendMessage and a precise list.
+   If SendMessage is listed only by name, load it first with ToolSearch
+   (`select:SendMessage`).
 
 If the subagent reports it is stuck, take that piece over in this session.
 
@@ -85,12 +90,16 @@ subagent with SendMessage, since its server and context are already warm.
 ## With superpowers skills loaded
 - **brainstorming:** this session.
 - **writing-plans:** this session writes the plan in that skill's format,
-  but uses route B's short form: tests and intent, not full code.
+  but uses route B's short form: tests and intent, not full code. At its
+  Execution Handoff the method is already supplied (route B: one Sonnet
+  subagent), so take that branch: ask only whether the plan captures what
+  the user wants. Don't offer Subagent-driven or Native.
 - **executing-plans / subagent-driven-development:** for route B, the Sonnet
-  subagent above replaces them. Use one subagent for the whole plan, not
-  one per task. This session does the checking.
+  subagent above replaces them, even if one of them was loaded first. Use
+  one subagent for the whole plan, not one per task. This session does the
+  checking.
 - **Final review:** route B's check plus the risk review replace the
-  "most capable model" reviewer, since this session already is that model.
+  "most capable model" reviewer at the end of those skills.
 
 ## Bugs a fix already failed to solve
 Stay in this session with systematic-debugging. Don't hand them to a subagent.

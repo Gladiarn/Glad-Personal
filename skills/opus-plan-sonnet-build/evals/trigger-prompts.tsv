@@ -12,3 +12,6 @@ H1	yes	Add role-based permissions (admin, editor, viewer) to the API and hide UI
 H2	yes	Checkout totals are off by one cent on some orders. I already tried a rounding fix and it's still wrong.
 H3	no	Make the submit button on the contact form blue.
 H4	no	Add .env.local to the .gitignore.
+E1	yes	The plan in docs/plans/csv-import.md is approved. Execute it.
+E2	yes	Plan looks good, go ahead and implement it.
+E3	yes	Execute docs/superpowers/plans/2026-10-20-billing.md task by task.
